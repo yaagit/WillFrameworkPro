@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using WillFrameworkPro.Command;
-using WillFrameworkPro.Containers;
-using WillFrameworkPro.Rules;
+using WillFrameworkPro.Runtime.Command;
+using WillFrameworkPro.Runtime.Containers;
+using WillFrameworkPro.Runtime.Rules;
 
-namespace WillFrameworkPro.CommandManager.Extensions
+namespace WillFrameworkPro.Runtime.CommandManager.Extensions
 {
     public static class CanListenCommandExtension
     {

@@ -1,6 +1,6 @@
-﻿using WillFrameworkPro.Attributes.Types;
+﻿using WillFrameworkPro.Runtime.Attributes.Types;
 
-namespace WillFrameworkPro.Context
+namespace WillFrameworkPro.Runtime.Context
 {
     internal static class PermissionForIdentities
     {

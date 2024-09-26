@@ -1,4 +1,4 @@
-﻿namespace WillFrameworkPro.Initialize
+﻿namespace WillFrameworkPro.Runtime.Initialize
 {
     public interface IInitialize
     {

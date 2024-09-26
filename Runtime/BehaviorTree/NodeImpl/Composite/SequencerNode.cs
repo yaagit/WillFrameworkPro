@@ -1,4 +1,4 @@
-﻿namespace WillFrameworkPro.BehaviorTree.NodeImpl.Composite
+﻿namespace WillFrameworkPro.Runtime.BehaviorTree.NodeImpl.Composite
 {
     public class SequencerNode : CompositeNode
     {

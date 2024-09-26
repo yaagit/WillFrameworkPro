@@ -1,4 +1,4 @@
-﻿namespace WillFrameworkPro.Context
+﻿namespace WillFrameworkPro.Runtime.Context
 {
     public class Context : BaseContext<Context>
     {

@@ -1,7 +1,7 @@
-﻿using WillFrameworkPro.Context;
-using WillFrameworkPro.Rules;
+﻿using WillFrameworkPro.Runtime.Context;
+using WillFrameworkPro.Runtime.Rules;
 
-namespace WillFrameworkPro.CommandManager
+namespace WillFrameworkPro.Runtime.CommandManager
 {
     public class BaseCommandManager : ICommandManager, ICanSetContext, ICanGetContext
     {

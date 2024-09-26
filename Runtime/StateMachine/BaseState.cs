@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WillFrameworkPro.StateMachine
+namespace WillFrameworkPro.Runtime.StateMachine
 {
     public abstract class BaseState<T> where T : Enum
     {

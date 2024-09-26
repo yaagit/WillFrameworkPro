@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WillFrameworkPro.StateMachine
+namespace WillFrameworkPro.Runtime.StateMachine
 {
     public abstract class BaseStateMachine<T> : MonoBehaviour where T : Enum
     {

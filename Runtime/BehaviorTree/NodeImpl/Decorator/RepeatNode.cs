@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace WillFrameworkPro.BehaviorTree.NodeImpl.Decorator
+namespace WillFrameworkPro.Runtime.BehaviorTree.NodeImpl.Decorator
 {
     /// <summary>
     /// 重复执行一个子节点 N 次。

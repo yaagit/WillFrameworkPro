@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
-using WillFrameworkPro.Containers;
-using WillFrameworkPro.Tiers;
+using WillFrameworkPro.Runtime.Containers;
+using WillFrameworkPro.Runtime.Tiers;
 
-namespace WillFrameworkPro.Context
+namespace WillFrameworkPro.Runtime.Context
 {
     public interface IContext
     {

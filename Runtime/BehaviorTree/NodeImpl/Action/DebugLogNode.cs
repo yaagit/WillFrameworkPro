@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace WillFrameworkPro.BehaviorTree.NodeImpl.Action
+namespace WillFrameworkPro.Runtime.BehaviorTree.NodeImpl.Action
 {
     public class DebugLogNode : ActionNode
     {

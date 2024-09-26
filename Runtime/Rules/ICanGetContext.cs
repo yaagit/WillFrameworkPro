@@ -1,6 +1,6 @@
-﻿using WillFrameworkPro.Context;
+﻿using WillFrameworkPro.Runtime.Context;
 
-namespace WillFrameworkPro.Rules
+namespace WillFrameworkPro.Runtime.Rules
 {
     public interface ICanGetContext
     {

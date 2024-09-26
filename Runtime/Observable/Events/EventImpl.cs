@@ -1,4 +1,4 @@
-﻿namespace WillFrameworkPro.Events
+﻿namespace WillFrameworkPro.Runtime.Events
 {
     public class EventImpl<T, U> : IEvent<T, U>
     {

@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
-using WillFrameworkPro.Attributes.Types;
-using WillFrameworkPro.Context;
-using WillFrameworkPro.Rules;
+using WillFrameworkPro.Runtime.Attributes.Types;
+using WillFrameworkPro.Runtime.Context;
+using WillFrameworkPro.Runtime.Rules;
 using Object = UnityEngine.Object;
 
-namespace WillFrameworkPro.Tiers
+namespace WillFrameworkPro.Runtime.Tiers
 {
     public abstract class BaseView : MonoBehaviour, IView
     {

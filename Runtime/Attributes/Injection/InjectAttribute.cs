@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WillFrameworkPro.Attributes.Injection
+namespace WillFrameworkPro.Runtime.Attributes.Injection
 {
     [AttributeUsage(AttributeTargets.Field)]
     public class InjectAttribute : Attribute

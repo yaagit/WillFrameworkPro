@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using WillFrameworkPro.Command;
-using WillFrameworkPro.Initialize;
+using WillFrameworkPro.Runtime.Command;
+using WillFrameworkPro.Runtime.Initialize;
 
-namespace WillFrameworkPro.Containers
+namespace WillFrameworkPro.Runtime.Containers
 {
     public class CommandContainer : IDisposable
     {

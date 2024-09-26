@@ -1,4 +1,4 @@
-﻿namespace WillFrameworkPro.Events
+﻿namespace WillFrameworkPro.Runtime.Events
 {
     public delegate void EventHandler<T, U>(T oldValue, U newValue);
     

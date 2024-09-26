@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace WillFrameworkPro.BehaviorTree.NodeImpl.Decorator
+namespace WillFrameworkPro.Runtime.BehaviorTree.NodeImpl.Decorator
 {
     public abstract class DecoratorNode : Node
     {

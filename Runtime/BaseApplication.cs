@@ -2,14 +2,14 @@
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using WillFrameworkPro.Context;
-using WillFrameworkPro.Tiers;
+using WillFrameworkPro.Runtime.Context;
+using WillFrameworkPro.Runtime.Tiers;
 
-namespace WillFrameworkPro
+namespace WillFrameworkPro.Runtime
 {
     public class BaseApplication : MonoBehaviour
     {
-        protected IContext Context { get => WillFrameworkPro.Context.Context.Instance; }
+        protected IContext Context { get => WillFrameworkPro.Runtime.Context.Context.Instance; }
 
         protected virtual void Awake()
         {

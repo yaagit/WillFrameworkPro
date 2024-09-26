@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WillFrameworkPro.Context
+namespace WillFrameworkPro.Runtime.Context
 {
     [Flags]
     internal enum PermissionFlags : uint

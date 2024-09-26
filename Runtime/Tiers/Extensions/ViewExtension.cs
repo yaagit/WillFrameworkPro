@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
-using WillFrameworkPro.Command;
-using WillFrameworkPro.Containers;
+using WillFrameworkPro.Runtime.Command;
+using WillFrameworkPro.Runtime.Containers;
+using WillFrameworkPro.Runtime.Tiers;
 
-namespace WillFrameworkPro.Tiers.Extensions
+namespace WillFrameworkPro.Runtime.Runtime.Tiers.Extensions
 {
     public static class ViewExtension
     {

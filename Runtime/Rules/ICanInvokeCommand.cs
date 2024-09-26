@@ -1,4 +1,4 @@
-﻿namespace WillFrameworkPro.Rules
+﻿namespace WillFrameworkPro.Runtime.Rules
 {
     public interface ICanInvokeCommand : ICanGetContext
     {

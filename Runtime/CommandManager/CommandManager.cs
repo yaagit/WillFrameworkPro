@@ -1,7 +1,7 @@
-﻿using WillFrameworkPro.Attributes;
-using WillFrameworkPro.Rules;
+﻿using WillFrameworkPro.Runtime.Attributes;
+using WillFrameworkPro.Runtime.Rules;
 
-namespace WillFrameworkPro.CommandManager
+namespace WillFrameworkPro.Runtime.CommandManager
 {
     [Identity]
     public class CommandManager : BaseCommandManager, ICanInvokeCommand, ICanListenCommand

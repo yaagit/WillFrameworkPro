@@ -1,4 +1,4 @@
-﻿namespace WillFrameworkPro.BehaviorTree.NodeImpl
+﻿namespace WillFrameworkPro.Runtime.BehaviorTree.NodeImpl
 {
     public class RootNode : Node
     {

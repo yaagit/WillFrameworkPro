@@ -1,6 +1,6 @@
-﻿using WillFrameworkPro.Rules;
+﻿using WillFrameworkPro.Runtime.Rules;
 
-namespace WillFrameworkPro.Tiers
+namespace WillFrameworkPro.Runtime.Tiers
 {
     public interface IView : ICanGetContext, ICanSetContext
     {

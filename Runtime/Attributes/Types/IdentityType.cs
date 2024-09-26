@@ -1,4 +1,4 @@
-﻿namespace WillFrameworkPro.Attributes.Types
+﻿namespace WillFrameworkPro.Runtime.Attributes.Types
 {
     public enum IdentityType
     {

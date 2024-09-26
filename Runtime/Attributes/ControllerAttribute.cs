@@ -1,7 +1,7 @@
 ﻿using System;
-using WillFrameworkPro.Attributes.Types;
+using WillFrameworkPro.Runtime.Attributes.Types;
 
-namespace WillFrameworkPro.Attributes
+namespace WillFrameworkPro.Runtime.Attributes
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class ControllerAttribute : IdentityAttribute

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using WillFrameworkPro.Attributes.Types;
+using WillFrameworkPro.Runtime.Attributes.Types;
 
-namespace WillFrameworkPro.Containers
+namespace WillFrameworkPro.Runtime.Containers
 {
     // todo 考虑放弃对 View 的注册
     public class IocContainer : IDisposable

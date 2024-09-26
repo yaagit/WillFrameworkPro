@@ -1,6 +1,6 @@
 ﻿using System;
-using WillFrameworkPro.Attributes.Types;
-namespace WillFrameworkPro.Attributes
+using WillFrameworkPro.Runtime.Attributes.Types;
+namespace WillFrameworkPro.Runtime.Attributes
 {
     /// <summary>
     /// 通用类型的 Attribute
