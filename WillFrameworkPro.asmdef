@@ -1,13 +1,40 @@
 ﻿{
   "name": "WillFrameworkPro",
-  "references": [],
+  "references": [
+    "GUID:17b36165d09634a48bf5a0e4bb27f4bd",
+    "GUID:b470eee7144904e59a1064b70fa1b086",
+    "GUID:2bafac87e7f4b9b418d9448d219b01ab",
+    "GUID:27619889b8ba8c24980f49ee34dbb44a",
+    "GUID:0acc523941302664db1f4e527237feb3"
+  ],
   "includePlatforms": [],
-  "excludePlatforms": [],
+  "excludePlatforms": [
+    "iOS",
+    "macOSStandalone",
+    "tvOS"
+  ],
   "allowUnsafeCode": false,
   "overrideReferences": true,
-  "precompiledReferences": ["nunit.framework.dll"],
+  "precompiledReferences": [
+    "Newtonsoft.Json.dll",
+    "nunit.framework.dll"
+  ],
   "autoReferenced": false,
-  "defineConstraints": [],
-  "versionDefines": [],
+  "defineConstraints": [
+    "UNITY_2019",
+    "UNITY_INCLUDE_TESTS"
+  ],
+  "versionDefines": [
+    {
+      "name": "com.unity.ide.vscode",
+      "expression": "[1.7,2.4.1]",
+      "define": "MY_SYMBOL"
+    },
+    {
+      "name": "com.unity.test-framework",
+      "expression": "[2.7.2-preview.8]",
+      "define": "TESTS"
+    }
+  ],
   "noEngineReferences": false
 }
