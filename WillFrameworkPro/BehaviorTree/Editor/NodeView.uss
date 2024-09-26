@@ -1,0 +1,3 @@
+#node-border {
+    background-color: rgba(229, 159, 0, 0);
+}

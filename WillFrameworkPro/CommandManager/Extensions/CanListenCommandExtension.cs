@@ -1,0 +1,24 @@
+﻿using UnityEngine;
+using WillFrameworkPro.Command;
+using WillFrameworkPro.Containers;
+using WillFrameworkPro.Rules;
+
+namespace WillFrameworkPro.CommandManager.Extensions
+{
+    public static class CanListenCommandExtension
+    {
+        //具有自动事件注销器功能
+        public static void AddCommandListener<T>(this ICanListenCommand self, object user, CommandContainer.InvokeCommandDelegate<T> del) where T : ICommand
+        {
+            if (self == null)
+            {
+                ErrorWarning();
+            }
+            self.GetContext().CommandContainer.AddCommandListener(user, del);
+        }
+        public static void ErrorWarning()
+        {
+            Debug.LogError("检测到 Context 的引用为空,可能是你在 Monobehavior 的 Awake 方法内引用了 CommandManager 对象, 解决方式: 请在 IAutoInitialize 接口的 AutoInitialize 方法内引用此对象或在 Monobehavior 的 Start 方法内引用此对象.");
+        }
+    }
+}

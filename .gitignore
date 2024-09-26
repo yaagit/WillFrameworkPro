@@ -1,0 +1,27 @@
+# 用于上传游戏代码
+
+
+# /*
+# !Assets/
+# !Packages/
+# !ProjectSettings/
+
+
+# ----------------------- 二选一 ------------------------------------
+
+
+# 用于上传框架代码
+
+
+# /*
+# !Assets/
+# !README.md
+# !LICENSE
+# Assets/*
+# !Assets/WillFrameworkPro Images/
+# Assets/WillFrameworkPro Images/*.meta
+# !Assets/WillFrameworkPro/
+# Assets/WillFrameworkPro/**/*.*
+# !Assets/WillFrameworkPro/**/*.cs
+# !Assets/WillFrameworkPro/**/*.asmdef
+# !Assets/WillFrameworkPro/**/Editor/*.meta
