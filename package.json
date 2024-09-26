@@ -5,7 +5,12 @@
   "version": "1.0.0",
   "unity": "2022.3",
   "unityRelease": "13f1c1",
-  "keywords": [],
+  "keywords": [
+    "Will",
+    "WillFrameworkPro",
+    "Unity Framework",
+    "MVC Framework"
+  ],
   "author": {
     "name": "Will Chan",
     "email": "willchan@163.com",
