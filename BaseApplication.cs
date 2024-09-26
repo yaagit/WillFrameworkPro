@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using WillFrameworkPro.Context;
 using WillFrameworkPro.Tiers;
 
-namespace WillFramework
+namespace WillFrameworkPro
 {
     public class BaseApplication : MonoBehaviour
     {
