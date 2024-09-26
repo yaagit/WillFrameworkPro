@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace WillFrameworkPro.BehaviorTree.NodeImpl.Action
 {

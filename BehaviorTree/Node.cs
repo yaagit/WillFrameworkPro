@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
-using State = WillFrameworkPro.BehaviorTree.State;
 
 namespace WillFrameworkPro.BehaviorTree
 {
@@ -13,12 +11,10 @@ namespace WillFrameworkPro.BehaviorTree
     public abstract class Node : ScriptableObject
     {
         //节点的唯一标识
-        [HideInInspector] public string GUID;
+        public string GUID;
 
-        [HideInInspector] public bool started = false;
-        //保存每个节点的位置
-        [HideInInspector] public Vector2 position;
-        
+        public bool started = false;
+    
         [HideInInspector] public State currentState = State.Running;
 
         public State Update()

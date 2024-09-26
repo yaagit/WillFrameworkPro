@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
-using WillFrameworkPro.BehaviorTree.Editor.GraphView;
 using WillFrameworkPro.BehaviorTree.NodeImpl;
 using WillFrameworkPro.BehaviorTree.NodeImpl.Composite;
 using WillFrameworkPro.BehaviorTree.NodeImpl.Decorator;
 
 namespace WillFrameworkPro.BehaviorTree
 {
-    [CreateAssetMenu()]
     public class BehaviorTree : ScriptableObject
     {
         public Node _rootNode;
@@ -32,19 +28,14 @@ namespace WillFrameworkPro.BehaviorTree
         {
             Node node = CreateInstance(type) as Node;
             node.name = type.Name;
-            node.GUID = GUID.Generate().ToString();
             _nodeList.Add(node);
             
-            AssetDatabase.AddObjectToAsset(node, this);
-            AssetDatabase.SaveAssets();
             return node;
         }
 
         public void DeleteNode(Node node)
         {
             _nodeList.Remove(node);
-            AssetDatabase.RemoveObjectFromAsset(node);
-            AssetDatabase.SaveAssets();
         }
 
         public void AddChild(Node parent, Node child)
