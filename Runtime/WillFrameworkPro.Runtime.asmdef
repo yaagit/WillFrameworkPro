@@ -1,7 +1,10 @@
 ﻿{
   "name": "WillFrameworkPro.Runtime",
   "rootNamespace": "",
-  "references": [],
+  "references": [
+    "Unity.Rider.Editor",
+    "UnityEditor.TestRunner"
+  ],
   "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,
