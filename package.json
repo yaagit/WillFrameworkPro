@@ -4,6 +4,7 @@
   "description": "A quick, powerful and user-friendly MVC based framework for developing Unity applications.",
   "version": "1.0.0",
   "unity": "2022.3",
+  "unityRelease": "13f1",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com:yaagit/WillFrameworkPro.git"

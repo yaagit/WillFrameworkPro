@@ -1,15 +1,14 @@
 ﻿{
   "name": "WillFrameworkPro.Runtime",
+  "rootNamespace": "",
   "references": [],
   "includePlatforms": [],
   "excludePlatforms": [],
+  "allowUnsafeCode": false,
   "overrideReferences": false,
   "precompiledReferences": [],
-  "autoReferenced": false,
-  "defineConstraints": [
-    "UNITY_2022_3",
-    "UNITY_INCLUDE_TESTS"
-  ],
+  "autoReferenced": true,
+  "defineConstraints": [],
   "versionDefines": [],
   "noEngineReferences": false
 }
