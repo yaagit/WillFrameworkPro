@@ -7,6 +7,7 @@ using WillFrameworkPro.Runtime.Tiers;
 
 namespace WillFrameworkPro.Runtime
 {
+    //todo 下次测试一下不销毁这个对象的情况
     public class BaseApplication : MonoBehaviour
     {
         protected IContext Context { get => WillFrameworkPro.Runtime.Context.Context.Instance; }

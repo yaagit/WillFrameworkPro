@@ -25,31 +25,31 @@ namespace WillFrameworkPro.Runtime.Tiers
         {
             _context = context;
         }
-        protected T Instantiate<T>(T original) where T : Object
+        protected new T Instantiate<T>(T original) where T : Object
         {
             T instance = MonoBehaviour.Instantiate(original);
             HandleInstantiated(instance);
             return instance;
         }
-        protected T Instantiate<T>(T original, Transform parent) where T : Object
+        protected new T Instantiate<T>(T original, Transform parent) where T : Object
         {
             T instance = MonoBehaviour.Instantiate(original, parent);
             HandleInstantiated(instance);
             return instance;
         }
-        protected T Instantiate<T>(T original, Transform parent, bool instantiateInWorldSpace) where T : Object
+        protected new T Instantiate<T>(T original, Transform parent, bool instantiateInWorldSpace) where T : Object
         {
             T instance = MonoBehaviour.Instantiate(original, parent, instantiateInWorldSpace);
             HandleInstantiated(instance);
             return instance;
         }
-        protected T Instantiate<T>(T original, Vector3 position, Quaternion rotation) where T : Object
+        protected new T Instantiate<T>(T original, Vector3 position, Quaternion rotation) where T : Object
         {
             T instance = MonoBehaviour.Instantiate(original, position, rotation);
             HandleInstantiated(instance);
             return instance;
         }
-        protected T Instantiate<T>(T original, Vector3 position, Quaternion rotation, Transform parent) where T : Object
+        protected new T Instantiate<T>(T original, Vector3 position, Quaternion rotation, Transform parent) where T : Object
         {
             T instance = MonoBehaviour.Instantiate(original, position, rotation, parent);
             HandleInstantiated(instance);
