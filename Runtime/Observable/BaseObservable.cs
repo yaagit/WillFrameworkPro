@@ -1,4 +1,4 @@
-﻿using WillFrameworkPro.Runtime.Events;
+﻿using WillFrameworkPro.Runtime.Observable.Events;
 
 namespace WillFrameworkPro.Runtime.Observable
 {

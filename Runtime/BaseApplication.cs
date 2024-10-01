@@ -26,7 +26,9 @@ namespace WillFrameworkPro.Runtime
             foreach (var view in views)
             {
                 Assembly viewAssembly = view.GetType().Assembly;
-                if (viewAssembly == localAssembly)
+                //view 源文件只有两种源头：1.用户的自定义 Assembly 2.属于本框架的 Assembly
+                Assembly frameworkAssembly = Assembly.GetAssembly(typeof(BaseApplication));
+                if (viewAssembly == localAssembly || viewAssembly == frameworkAssembly)
                 {
                     resultViewList.Add(view);
                 }

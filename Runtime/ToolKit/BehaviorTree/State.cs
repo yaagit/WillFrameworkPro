@@ -1,4 +1,4 @@
-﻿namespace WillFrameworkPro.Runtime.BehaviorTree
+﻿namespace WillFrameworkPro.Runtime.ToolKit.BehaviorTree
 {
     public enum State
     {

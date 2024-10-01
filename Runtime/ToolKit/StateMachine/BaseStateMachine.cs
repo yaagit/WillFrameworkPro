@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WillFrameworkPro.Runtime.StateMachine
+namespace WillFrameworkPro.Runtime.ToolKit.StateMachine
 {
     public abstract class BaseStateMachine<T> : MonoBehaviour where T : Enum
     {
@@ -55,20 +55,16 @@ namespace WillFrameworkPro.Runtime.StateMachine
             _enumStateMapping.Add(stateEnum, state);
         }
         
-        private void FixedUpdate()
+        protected virtual void FixedUpdate()
         {
             _currentState.FixedUpdate();
-            _FixedUpdate();
         }
         
-        protected virtual void _FixedUpdate() {}
 
-        private void Update()
+        protected virtual void Update()
         {
             _currentState.Update();
-            _Update();
         }
 
-        protected virtual void _Update() {}
     }
 }

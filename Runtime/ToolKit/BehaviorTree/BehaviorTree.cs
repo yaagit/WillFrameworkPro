@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using WillFrameworkPro.Runtime.BehaviorTree.NodeImpl;
-using WillFrameworkPro.Runtime.BehaviorTree.NodeImpl.Composite;
-using WillFrameworkPro.Runtime.BehaviorTree.NodeImpl.Decorator;
+using WillFrameworkPro.Runtime.ToolKit.BehaviorTree.NodeImpl;
+using WillFrameworkPro.Runtime.ToolKit.BehaviorTree.NodeImpl.Composite;
+using WillFrameworkPro.Runtime.ToolKit.BehaviorTree.NodeImpl.Decorator;
 
-namespace WillFrameworkPro.Runtime.BehaviorTree
+namespace WillFrameworkPro.Runtime.ToolKit.BehaviorTree
 {
     public class BehaviorTree : ScriptableObject
     {

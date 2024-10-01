@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace WillFrameworkPro.Runtime.BehaviorTree
+namespace WillFrameworkPro.Runtime.ToolKit.BehaviorTree
 {
     /// <summary>
     /// 基本节点，所有的节点都派生自基本节点。

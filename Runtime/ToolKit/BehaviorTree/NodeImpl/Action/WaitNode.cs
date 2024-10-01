@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace WillFrameworkPro.Runtime.BehaviorTree.NodeImpl.Action
+namespace WillFrameworkPro.Runtime.ToolKit.BehaviorTree.NodeImpl.Action
 {
     /// <summary>
     /// 什么也不做，只是停留 N 秒后返回 Success
