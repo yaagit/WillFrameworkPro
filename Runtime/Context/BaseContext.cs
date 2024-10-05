@@ -8,7 +8,6 @@ using WillFrameworkPro.Runtime.Attributes.Injection;
 using WillFrameworkPro.Runtime.Attributes.Types;
 using WillFrameworkPro.Runtime.CommandManager;
 using WillFrameworkPro.Runtime.Containers;
-using WillFrameworkPro.Runtime.Initialize;
 using WillFrameworkPro.Runtime.Rules;
 using WillFrameworkPro.Runtime.Tiers;
 
@@ -127,9 +126,9 @@ namespace WillFrameworkPro.Runtime.Context
 
         private void HandleAutoInitialize(object instance)
         {
-            if (instance is IAutoInitialize init)
+            if (instance is IView view)
             {
-                init.AutoInitialize();
+                view.Initialize();
             }
         }
         private IdentityType GetIdentityTypeByType(Type type)
