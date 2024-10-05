@@ -8,7 +8,7 @@ WillFramework 支持 View 层事件自动注销功能。
 ### 角色关系
 通常情况下，WillFramework 具有三个角色：View，Service，Model。三个角色通讯关系如下所示：
 
-![image](/Assets/WillFrameworkPro%20Images/WillFramework003.png)
+![image](/WillFrameworkPro%20Images/WillFramework003.png)
 
 #### CommandManager
 CommandManager 作为框架的受 Ioc 容器托管的内置对象，拥有两个级别：HighLevelCommandManager、LowLevelCommandManager。
@@ -17,7 +17,7 @@ HighLevelCommandManager 能够发布和执行命令，LowLevelCommandManager 只
 
 （黄色块为用户的自定义类型）
 
-![image](/Assets/WillFrameworkPro%20Images/WillFramework004.png)
+![image](/WillFrameworkPro%20Images/WillFramework004.png)
 
 ### View
 View 角色比较特殊，通常要继承 Monobehavior，也就说明它的生命周期无法被 WillFramework 掌控。WillFramework 提供了基类 BaseView<T>，默认继承了 Monobehavior，View 通过继承 BaseView 能够获得事件监听、执行以及自动注销的功能。View 需要和 Unity 对接后传入至 Application 的启动参数，只有这样才会被纳入 Ioc 容器的管理。
