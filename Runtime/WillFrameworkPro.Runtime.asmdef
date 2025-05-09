@@ -1,6 +1,5 @@
 ﻿{
   "name": "WillFrameworkPro.Runtime",
-  "rootNamespace": "WillFrameworkPro.Runtime",
   "references": [],
   "includePlatforms": [],
   "excludePlatforms": [],
