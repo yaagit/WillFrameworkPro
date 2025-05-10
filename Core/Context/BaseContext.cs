@@ -135,11 +135,6 @@ namespace WillFrameworkPro.Core.Context
             var methodsWithAttribute = methods.Where(m => m.IsDefined(typeof(CommandListenerAttribute), false)).ToList();
             foreach (var m in methodsWithAttribute)
             {
-                // 检查方法是否标注了 [CommandListener] 特性
-                if (!m.IsDefined(typeof(CommandListenerAttribute), true))
-                {
-                    continue;
-                }
                 var parameters = m.GetParameters();
                 // 确保方法具有一个参数
                 if (parameters.Length != 1)
