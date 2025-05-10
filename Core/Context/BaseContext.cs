@@ -137,15 +137,23 @@ namespace WillFrameworkPro.Core.Context
             {
                 // 检查方法是否标注了 [CommandListener] 特性
                 if (!m.IsDefined(typeof(CommandListenerAttribute), true))
+                {
                     continue;
+                }
                 var parameters = m.GetParameters();
                 // 确保方法具有一个参数
                 if (parameters.Length != 1)
+                {
+                    Debug.LogError(instance.GetType().FullName + " 类标注有 [CommandListener] 特性的方法只允许有一个参数。");
                     continue;
+                }
                 var commandType = parameters[0].ParameterType;
                 // 确保参数类型实现了 ICommand 接口
                 if (!typeof(ICommand).IsAssignableFrom(commandType))
+                {
+                    Debug.LogError(instance.GetType().FullName + " 类标注有 [CommandListener] 特性的方法参数类型必须要实现 ICommand 接口。");
                     continue;
+                }
                 // 构造泛型委托类型 InvokeCommandDelegate<T>
                 var delegateType = typeof(CommandContainer.InvokeCommandDelegate<>).MakeGenericType(commandType);
                 try
@@ -160,7 +168,7 @@ namespace WillFrameworkPro.Core.Context
                 catch (Exception ex)
                 {
                     // 处理委托创建或方法调用中的异常
-                    Debug.LogError($"注册 Command 方法 {m.Name} 时发生错误: {ex.Message}");
+                    Debug.LogError($"Context 反射注册 Command 方法 {m.Name} 时发生错误: {ex.Message}");
                 }
             }
         }
