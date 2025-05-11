@@ -114,12 +114,12 @@ namespace WillFrameworkPro.Core.Context
                     foreach (var instance in objectList)
                     {
                         PermissionFlags permissions = PermissionForIdentities.GetPermissionsByIdentityType(identityType);
-                        //----- 若重写了初始化方法，就执行初始化代码
-                        HandleAutoInitialize(instance);
                         //----- 依据权限注入受框架托管的引用
                         InjectByPermission(instance, permissions);
                         //----- 找到标注着 command listener 的方法，放进 command container 中托管
                         HandleCommandListener(instance);
+                        //----- 若重写了初始化方法，就执行初始化代码
+                        HandleAutoInitialize(instance);
                     }
                 }
                 
@@ -284,6 +284,7 @@ namespace WillFrameworkPro.Core.Context
                 HandleIdentities();
                 Debug.Log($"-------------- Context 执行完毕, 用时: {(DateTime.Now - startTime).Milliseconds} ms --------------");
                 Debug.Log(_iocContainer);
+                Debug.Log(CommandContainer);
                 _hasStarted = true;
             }
         }
