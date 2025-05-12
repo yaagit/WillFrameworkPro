@@ -9,15 +9,15 @@ namespace WillFrameworkPro.Core.Context
         public static PermissionFlags Model = PermissionFlags._None;
         public static PermissionFlags Identity = PermissionFlags._None;
 
-        public static PermissionFlags GetPermissionsByIdentityType(IdentityType identityType)
+        public static PermissionFlags GetPermissionsByIdentityType(TypeEnum typeEnum)
         {
-            switch (identityType)
+            switch (typeEnum)
             {
-                case IdentityType.View:
+                case TypeEnum.View:
                     return View;
-                case IdentityType.Service:
+                case TypeEnum.Service:
                     return Service;
-                case IdentityType.Model:
+                case TypeEnum.Model:
                     return Model;
             }
             return Identity;

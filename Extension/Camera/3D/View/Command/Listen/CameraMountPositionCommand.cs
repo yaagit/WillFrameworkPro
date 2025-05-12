@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using WillFrameworkPro.Core.Command;
+using WillFrameworkPro.Core.CommandManager;
 
 namespace WillFrameworkPro.Extension.Camera._3D.View.Command.Listen
 {

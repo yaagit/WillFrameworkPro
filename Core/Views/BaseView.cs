@@ -4,7 +4,7 @@ using WillFrameworkPro.Core.Context;
 using WillFrameworkPro.Core.Rules;
 using Object = UnityEngine.Object;
 
-namespace WillFrameworkPro.Core.Tiers
+namespace WillFrameworkPro.Core.Views
 {
     public abstract class BaseView : MonoBehaviour, IView
     {
@@ -12,7 +12,7 @@ namespace WillFrameworkPro.Core.Tiers
         
         protected virtual void OnDestroy()
         {
-            _context.IocContainer.Remove(IdentityType.View, this);
+            _context.IocContainer.Remove(TypeEnum.View, this);
             _context.CommandContainer.UnbindEvents(this);
         }
         /// <summary>

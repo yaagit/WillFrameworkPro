@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using WillFrameworkPro.Core.Command;
+using WillFrameworkPro.Core.CommandManager;
 
 namespace WillFrameworkPro.Core.Containers
 {

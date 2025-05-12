@@ -1,13 +1,11 @@
 ﻿using System;
-
 namespace WillFrameworkPro.Core.Attributes.Types
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public sealed class ModelAttribute : BaseAttribute
+    public sealed class GeneralAttribute : BaseAttribute
     {
-        public ModelAttribute() : base(TypeEnum.Model)
+        public GeneralAttribute() : base(TypeEnum.General)
         {
-            
         }
     }
 }

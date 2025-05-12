@@ -1,4 +1,4 @@
-﻿namespace WillFrameworkPro.Core.Command
+﻿namespace WillFrameworkPro.Core.CommandManager
 {
     public interface ICommand
     {

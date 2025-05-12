@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WillFrameworkPro.Core.Observable
+namespace WillFrameworkPro.Tools.Observable
 {
     public class ObservableOnDiff<T> : BaseObservable<T> where T : IEquatable<T>
     {

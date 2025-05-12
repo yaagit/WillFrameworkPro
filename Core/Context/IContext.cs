@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using WillFrameworkPro.Core.Containers;
-using WillFrameworkPro.Core.Tiers;
+using WillFrameworkPro.Core.Views;
 
 namespace WillFrameworkPro.Core.Context
 {

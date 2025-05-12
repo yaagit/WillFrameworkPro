@@ -1,11 +1,10 @@
 ﻿using System;
-using WillFrameworkPro.Core.Attributes.Types;
-namespace WillFrameworkPro.Core.Attributes
+namespace WillFrameworkPro.Core.Attributes.Types
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public sealed class ViewAttribute : IdentityAttribute
+    public sealed class ViewAttribute : BaseAttribute
     {
-        public ViewAttribute() : base(IdentityType.View)
+        public ViewAttribute() : base(TypeEnum.View)
         {
         }
     }

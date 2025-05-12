@@ -1,4 +1,4 @@
-﻿namespace WillFrameworkPro.Core.Observable
+﻿namespace WillFrameworkPro.Tools.Observable
 {
     public class ObservableWhatever<T> : BaseObservable<T>
     {

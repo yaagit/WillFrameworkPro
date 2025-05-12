@@ -1,4 +1,4 @@
-﻿namespace WillFrameworkPro.Core.Observable.Events
+﻿namespace WillFrameworkPro.Tools.Observable.Events
 {
     public class EventImpl<T, U> : IEvent<T, U>
     {

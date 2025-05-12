@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using WillFrameworkPro.Core.Attributes;
-using WillFrameworkPro.Core.Attributes.Injection;
 using WillFrameworkPro.Core.Attributes.Types;
-using WillFrameworkPro.Core.Command;
+using WillFrameworkPro.Core.Attributes.Types.Injection;
 using WillFrameworkPro.Core.CommandManager;
 using WillFrameworkPro.Core.Containers;
 using WillFrameworkPro.Core.Rules;
-using WillFrameworkPro.Core.Tiers;
+using WillFrameworkPro.Core.Views;
 
 namespace WillFrameworkPro.Core.Context
 {
@@ -28,9 +26,11 @@ namespace WillFrameworkPro.Core.Context
         public void PresetGeneratedView(IView view)
         {
             view.SetContext(Instance);
-            IocContainer.Add(IdentityType.View, view);
-            PermissionFlags permissions = PermissionForIdentities.GetPermissionsByIdentityType(IdentityType.View);
+            IocContainer.Add(TypeEnum.View, view);
+            PermissionFlags permissions = PermissionForIdentities.GetPermissionsByIdentityType(TypeEnum.View);
             InjectByPermission(view, permissions);
+            //处理事件绑定与事件缓存
+            HandleCommandListener(view);
             HandleAutoInitialize(view);
         }
 
@@ -53,20 +53,20 @@ namespace WillFrameworkPro.Core.Context
         }
         #endregion
         
-        #region 扫描类上面的注解, 添加进相应的 container
-        private void ScanIdentitiesByAssembly(Assembly assembly)
+        #region 扫描类上面的特性, 添加进相应的 container
+        private void ScanTypeAttributesByAssembly(Assembly assembly)
         {
             Type[] types = assembly.GetTypes();
             foreach (var t in types)
             {
-                IdentityAttribute identityAttribute = t.GetCustomAttribute(typeof(IdentityAttribute)) as IdentityAttribute;
-                if (identityAttribute == null)
+                BaseAttribute attribute = t.GetCustomAttribute(typeof(BaseAttribute)) as BaseAttribute;
+                if (attribute == null)
                 {
                     continue;
                 }
                 object instance = CreateInstance(t);
                 HandleCanSetContext(instance);
-                _iocContainer.Add(identityAttribute.IdentityType, instance);
+                _iocContainer.Add(attribute.TypeEnum, instance);
             }
         }
 
@@ -103,17 +103,17 @@ namespace WillFrameworkPro.Core.Context
 
         private void HandleIdentities()
         {
-            Dictionary<IdentityType, Dictionary<Type, List<object>>> identityIoc  = IocContainer.IdentityIoc;
-            foreach (KeyValuePair<IdentityType, Dictionary<Type, List<object>>> outerKv in identityIoc)
+            Dictionary<TypeEnum, Dictionary<Type, List<object>>> identityIoc  = IocContainer.IdentityIoc;
+            foreach (KeyValuePair<TypeEnum, Dictionary<Type, List<object>>> outerKv in identityIoc)
             {
-                IdentityType identityType = outerKv.Key;
+                TypeEnum typeEnum = outerKv.Key;
 
                 foreach (KeyValuePair<Type,  List<object>> innerKv in outerKv.Value)
                 {
                     List<object> objectList = innerKv.Value;
                     foreach (var instance in objectList)
                     {
-                        PermissionFlags permissions = PermissionForIdentities.GetPermissionsByIdentityType(identityType);
+                        PermissionFlags permissions = PermissionForIdentities.GetPermissionsByIdentityType(typeEnum);
                         //----- 依据权限注入受框架托管的引用
                         InjectByPermission(instance, permissions);
                         //----- 找到标注着 command listener 的方法，放进 command container 中托管
@@ -175,21 +175,21 @@ namespace WillFrameworkPro.Core.Context
                 view.Initialize();
             }
         }
-        private IdentityType GetIdentityTypeByType(Type type)
+        private TypeEnum GetIdentityTypeByType(Type type)
         {
-            foreach(KeyValuePair<IdentityType, Dictionary<Type, List<object>>> kv in IocContainer.IdentityIoc)
+            foreach(KeyValuePair<TypeEnum, Dictionary<Type, List<object>>> kv in IocContainer.IdentityIoc)
             {
                 if (kv.Value.TryGetValue(type, out List<object> instanceList))
                 {
                     return kv.Key;
                 }
             }
-            return IdentityType._None;
+            return TypeEnum._None;
         }
 
-        private void SetInstanceField(IdentityType fieldIdentityType, Type fieldType, object instance, FieldInfo f)
+        private void SetInstanceField(TypeEnum fieldTypeEnum, Type fieldType, object instance, FieldInfo f)
         {
-            if (IocContainer.IdentityIoc.TryGetValue(fieldIdentityType, out Dictionary<Type, List<object>> dic))
+            if (IocContainer.IdentityIoc.TryGetValue(fieldTypeEnum, out Dictionary<Type, List<object>> dic))
             {
                 if (dic.TryGetValue(fieldType, out List<object> fieldInstanceList))
                 {
@@ -198,11 +198,11 @@ namespace WillFrameworkPro.Core.Context
             }
         }
 
-        private void ValidatePermissions(PermissionFlags permissions, PermissionFlags canInject, Type instanceType, IdentityType injectIdentityType)
+        private void ValidatePermissions(PermissionFlags permissions, PermissionFlags canInject, Type instanceType, TypeEnum injectTypeEnum)
         {
             if (!permissions.HasFlag(canInject))
             {
-                throw new Exception($"{instanceType.FullName} 不允许注入 {nameof(injectIdentityType)} 类型字段");
+                throw new Exception($"{instanceType.FullName} 不允许注入 {nameof(injectTypeEnum)} 类型字段");
             }
         }
         
@@ -216,31 +216,31 @@ namespace WillFrameworkPro.Core.Context
                 if (f.GetCustomAttribute(typeof(InjectAttribute)) is InjectAttribute injectAttr)
                 {
                     Type fieldType = f.FieldType;
-                    IdentityType fieldIdentityType = GetIdentityTypeByType(fieldType);
-                    if (fieldIdentityType == IdentityType._None)
+                    TypeEnum fieldTypeEnum = GetIdentityTypeByType(fieldType);
+                    if (fieldTypeEnum == TypeEnum._None)
                     {
                         throw new Exception($"{type.FullName} 无法注入非托管类型: {fieldType.FullName}");
                     }
-                    if (fieldIdentityType == IdentityType.Model)
+                    if (fieldTypeEnum == TypeEnum.Model)
                     {
-                        ValidatePermissions(permissions, PermissionFlags.InjectModel, type, fieldIdentityType);
-                        SetInstanceField(fieldIdentityType, fieldType, instance, f);
+                        ValidatePermissions(permissions, PermissionFlags.InjectModel, type, fieldTypeEnum);
+                        SetInstanceField(fieldTypeEnum, fieldType, instance, f);
                         continue;
                     }
-                    if (fieldIdentityType == IdentityType.Service)
+                    if (fieldTypeEnum == TypeEnum.Service)
                     {
-                        ValidatePermissions(permissions, PermissionFlags.InjectService, type, fieldIdentityType);
-                        SetInstanceField(fieldIdentityType, fieldType, instance, f);
+                        ValidatePermissions(permissions, PermissionFlags.InjectService, type, fieldTypeEnum);
+                        SetInstanceField(fieldTypeEnum, fieldType, instance, f);
                         continue;
                     }
-                    if (fieldIdentityType == IdentityType.View)
+                    if (fieldTypeEnum == TypeEnum.View)
                     {
-                        ValidatePermissions(permissions, PermissionFlags.InjectView, type, fieldIdentityType);
-                        SetInstanceField(fieldIdentityType, fieldType, instance, f);
+                        ValidatePermissions(permissions, PermissionFlags.InjectView, type, fieldTypeEnum);
+                        SetInstanceField(fieldTypeEnum, fieldType, instance, f);
                         continue;
                     }
 
-                    if (fieldIdentityType == IdentityType.Identity)
+                    if (fieldTypeEnum == TypeEnum.General)
                     {
                         if (fieldType == typeof(LowLevelCommandManager) && !permissions.HasFlag(PermissionFlags.InjectLowLevelCommandManager))
                         {
@@ -254,7 +254,7 @@ namespace WillFrameworkPro.Core.Context
                         {
                             throw new Exception($"{type.FullName} 不允许注入 {nameof(CommandManager)} 类型字段");
                         }
-                        SetInstanceField(fieldIdentityType, fieldType, instance, f);
+                        SetInstanceField(fieldTypeEnum, fieldType, instance, f);
                         continue;
                     }
                 }
@@ -273,18 +273,20 @@ namespace WillFrameworkPro.Core.Context
                     foreach (IView v in views)
                     {
                         v.SetContext(Instance);;
-                        IocContainer.Add(IdentityType.View, v);
+                        IocContainer.Add(TypeEnum.View, v);
                     }
                 }
-                //扫描并添加进 IOC 容器
-                ScanIdentitiesByAssembly(assembly);
+                //扫描自定义的 assembly 并添加进 IOC 容器
+                ScanTypeAttributesByAssembly(assembly);
                 Assembly frameworkAssembly = Assembly.GetAssembly(typeof(T));
-                ScanIdentitiesByAssembly(frameworkAssembly);
+                //扫描 WillFrameworkPro 的所有类，筛选后添加进 IOC 容器
+                ScanTypeAttributesByAssembly(frameworkAssembly);
                 //注入依赖 + 调用初始化
                 HandleIdentities();
                 Debug.Log($"-------------- Context 执行完毕, 用时: {(DateTime.Now - startTime).Milliseconds} ms --------------");
                 Debug.Log(_iocContainer);
                 Debug.Log(CommandContainer);
+                //启动过后更新状态为：已启动
                 _hasStarted = true;
             }
         }

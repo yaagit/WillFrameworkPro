@@ -8,9 +8,9 @@ namespace WillFrameworkPro.Core.Containers
     // todo 考虑放弃对 View 的注册
     public class IocContainer : IDisposable
     {
-        private readonly Dictionary<IdentityType, Dictionary<Type, List<object>>> _identityIoc;
+        private readonly Dictionary<TypeEnum, Dictionary<Type, List<object>>> _identityIoc;
         
-        public Dictionary<IdentityType, Dictionary<Type, List<object>>> IdentityIoc
+        public Dictionary<TypeEnum, Dictionary<Type, List<object>>> IdentityIoc
         {
             get => _identityIoc;
         }
@@ -20,10 +20,10 @@ namespace WillFrameworkPro.Core.Containers
             _identityIoc = new();
         }
 
-        public void Add(IdentityType identityType, object instance)
+        public void Add(TypeEnum typeEnum, object instance)
         {
             Type instanceType = instance.GetType();
-            if (_identityIoc.TryGetValue(identityType, out Dictionary<Type, List<object>> value))
+            if (_identityIoc.TryGetValue(typeEnum, out Dictionary<Type, List<object>> value))
             {
                 if (value.TryGetValue(instanceType, out List<object> objectList))
                 {
@@ -39,13 +39,13 @@ namespace WillFrameworkPro.Core.Containers
                 value = new Dictionary<Type, List<object>>();
                 List<object> objectList = new List<object>(){instance};
                 value.Add(instanceType, objectList);
-                _identityIoc.Add(identityType, value);
+                _identityIoc.Add(typeEnum, value);
             }
         }
 
-        public void Remove(IdentityType identityType, object instance)
+        public void Remove(TypeEnum typeEnum, object instance)
         {
-            if (_identityIoc.TryGetValue(identityType, out Dictionary<Type, List<object>> value))
+            if (_identityIoc.TryGetValue(typeEnum, out Dictionary<Type, List<object>> value))
             {
                 Type instanceType = instance.GetType();
                 if (value.TryGetValue(instanceType, out List<object> objectList))
@@ -57,7 +57,7 @@ namespace WillFrameworkPro.Core.Containers
                     }
                     if (value.Count == 0)
                     {
-                        _identityIoc.Remove(identityType);
+                        _identityIoc.Remove(typeEnum);
                     }
                 }
             }
@@ -67,7 +67,7 @@ namespace WillFrameworkPro.Core.Containers
         {
             StringBuilder result = new();
             result.Append("-------------------------- IOC Container --------------------------\n");
-            foreach (KeyValuePair<IdentityType, Dictionary<Type, List<object>>> outerKv in _identityIoc)
+            foreach (KeyValuePair<TypeEnum, Dictionary<Type, List<object>>> outerKv in _identityIoc)
             {
                 result.Append($"{outerKv.Key}:").Append("\n\t");
                 foreach (KeyValuePair<Type, List<object>> innerKv in outerKv.Value)

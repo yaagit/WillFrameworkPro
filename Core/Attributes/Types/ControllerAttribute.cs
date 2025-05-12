@@ -1,12 +1,11 @@
 ﻿using System;
-using WillFrameworkPro.Core.Attributes.Types;
 
-namespace WillFrameworkPro.Core.Attributes
+namespace WillFrameworkPro.Core.Attributes.Types
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class ControllerAttribute : IdentityAttribute
+    public class ControllerAttribute : BaseAttribute
     {
-        public ControllerAttribute() : base(IdentityType.Controller)
+        public ControllerAttribute() : base(TypeEnum.Controller)
         {
             
         }

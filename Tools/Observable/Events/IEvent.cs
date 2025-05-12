@@ -1,4 +1,4 @@
-﻿namespace WillFrameworkPro.Core.Observable.Events
+﻿namespace WillFrameworkPro.Tools.Observable.Events
 {
     public delegate void EventHandler<T, U>(T oldValue, U newValue);
     

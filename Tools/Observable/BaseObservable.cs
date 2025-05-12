@@ -1,6 +1,6 @@
-﻿using WillFrameworkPro.Core.Observable.Events;
+﻿using WillFrameworkPro.Tools.Observable.Events;
 
-namespace WillFrameworkPro.Core.Observable
+namespace WillFrameworkPro.Tools.Observable
 {
     public abstract class BaseObservable<T>
     {

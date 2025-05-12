@@ -1,6 +1,6 @@
 ﻿using WillFrameworkPro.Core.Rules;
 
-namespace WillFrameworkPro.Core.Tiers
+namespace WillFrameworkPro.Core.Views
 {
     public interface IView : ICanGetContext, ICanSetContext
     {
