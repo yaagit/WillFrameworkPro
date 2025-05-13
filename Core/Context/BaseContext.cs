@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using WillFrameworkPro.Core.Attributes.Types;
-using WillFrameworkPro.Core.Attributes.Types.Injection;
+using WillFrameworkPro.Core.Attributes.Injection;
 using WillFrameworkPro.Core.CommandManager;
 using WillFrameworkPro.Core.Containers;
 using WillFrameworkPro.Core.Rules;
@@ -132,7 +132,7 @@ namespace WillFrameworkPro.Core.Context
             // 查找所有公共和非公共的实例方法（非静态，且不包括继承的）
             MethodInfo[] methods = instance.GetType().GetMethods(BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
             // 使用 LINQ 查找带有特定 Attribute 的方法
-            var methodsWithAttribute = methods.Where(m => m.IsDefined(typeof(CommandListenerAttribute), false)).ToList();
+            var methodsWithAttribute = methods.Where(m => m.IsDefined(typeof(ListenerAttribute), false)).ToList();
             foreach (var m in methodsWithAttribute)
             {
                 var parameters = m.GetParameters();

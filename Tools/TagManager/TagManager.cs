@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using UnityEngine;
 using WillFrameworkPro.Core.Attributes.Types;
@@ -16,6 +15,7 @@ namespace WillFrameworkPro.Tools.TagManager
         private static Dictionary<string, List<GameObject>> _taggedObjects = new Dictionary<string, List<GameObject>>();
         /// <summary>
         /// 若 GameObject 存在 tag，则注册。
+        /// 这个方法已在项目启动的时候被调用，因此不建议用户继续调用这个方法。用户只需要使用查询方法即可。
         /// </summary>
         /// <param name="obj">Unity 的 gameObject</param>
         public static void RegisterObject(GameObject obj)

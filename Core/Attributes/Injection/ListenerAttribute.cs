@@ -2,8 +2,8 @@
 
 namespace WillFrameworkPro.Core.Attributes.Injection
 {
-    [AttributeUsage(AttributeTargets.Field)]
-    public class InjectAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Method)]
+    public class ListenerAttribute : Attribute
     {
         
     }

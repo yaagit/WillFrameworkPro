@@ -3,7 +3,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using WillFrameworkPro.Core.Attributes.Types;
-using WillFrameworkPro.Core.Attributes.Types.Injection;
+using WillFrameworkPro.Core.Attributes.Injection;
 using WillFrameworkPro.Core.Context;
 using WillFrameworkPro.Core.Views;
 using WillFrameworkPro.Tools.TagManager;
@@ -53,11 +53,12 @@ namespace WillFrameworkPro.Core
             {
                 //若有 tag，通过 tagManager 将其缓存起来，留作后面使用
                 TagManager.RegisterObject(so);
-                //保存到 view 列表
-                BaseView view = so.GetComponent<BaseView>();
-                if (view != null)
+                //同一个 gameObject 可能会挂载多个脚本 view 对象
+                BaseView[] views = so.GetComponents<BaseView>();
+                foreach (var v in views)
                 {
-                    resultViewList.Add(view);
+                    //保存到 view 列表
+                    resultViewList.Add(v);
                 }
             }
             
