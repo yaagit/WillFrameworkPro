@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+using WillFrameworkPro.Core.Attributes.Types;
 using WillFrameworkPro.Core.Views;
 
-namespace WillFrameworkPro.Extension.StateMachine
+namespace WillFrameworkPro.Core.StateMachine
 {
     /// <summary>
     /// 继承了 BaseView 的状态机，可以很好地集成到 WillFramework 中。
@@ -56,5 +55,17 @@ namespace WillFrameworkPro.Extension.StateMachine
             _currentState?.Update(gameObject);
         }
 
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            var states = _context.StateContainer.GetStates(GetType());
+            foreach (var state in states)
+            {
+                _context.CommandContainer.UnbindEvents(state);
+                _context.IocContainer.Remove(TypeEnum.General, state);
+            }
+            //所有 State 对象的事件已经注销，清理 StateContainer
+            _context.StateContainer.ClearStates(GetType());
+        }
     }
 }

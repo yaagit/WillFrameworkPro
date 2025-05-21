@@ -8,21 +8,24 @@ using WillFrameworkPro.Core.Attributes.Injection;
 using WillFrameworkPro.Core.CommandManager;
 using WillFrameworkPro.Core.Containers;
 using WillFrameworkPro.Core.Rules;
+using WillFrameworkPro.Core.StateMachine;
 using WillFrameworkPro.Core.Views;
 
 namespace WillFrameworkPro.Core.Context
 {
-    public class BaseContext<T> : IContext, IDisposable where T : BaseContext<T>
+    public class BaseContext<T> : IContext where T : BaseContext<T>
     {
         //防止重复启动
         private bool _hasStarted = false; 
-        //IOC 容器
-        private readonly IocContainer _iocContainer = new IocContainer();
+        // --- IOC 容器 ---
+        private readonly IocContainer _iocContainer = new();
         public IocContainer IocContainer { get => _iocContainer;}
-        //Command 容器
-        private readonly CommandContainer _commandContainer = new CommandContainer();
+        // --- Command 容器 ---
+        private readonly CommandContainer _commandContainer = new();
         public CommandContainer CommandContainer { get => _commandContainer; }
-        
+        // --- State Machine 容器 ---
+        private readonly StateContainer _stateContainer = new();
+        public StateContainer StateContainer { get => _stateContainer; }
         public void PresetGeneratedView(IView view)
         {
             view.SetContext(Instance);
@@ -118,6 +121,8 @@ namespace WillFrameworkPro.Core.Context
                         InjectByPermission(instance, permissions);
                         //----- 找到标注着 command listener 的方法，放进 command container 中托管
                         HandleCommandListener(instance);
+                        //----- 构建 stateMachine 与 State 集合的映射关系，存进 State 容器中，方便后面注销 State 对象上绑定的事件。
+                        HandleStateMachine(instance);
                         //----- 若重写了初始化方法，就执行初始化代码
                         HandleAutoInitialize(instance);
                     }
@@ -139,14 +144,14 @@ namespace WillFrameworkPro.Core.Context
                 // 确保方法具有一个参数
                 if (parameters.Length != 1)
                 {
-                    Debug.LogError(instance.GetType().FullName + " 类标注有 [CommandListener] 特性的方法只允许有一个参数。");
+                    Debug.LogError(instance.GetType().FullName + " 类标注有 [Listener] 特性的方法只允许有一个参数。");
                     continue;
                 }
                 var commandType = parameters[0].ParameterType;
                 // 确保参数类型实现了 ICommand 接口
                 if (!typeof(ICommand).IsAssignableFrom(commandType))
                 {
-                    Debug.LogError(instance.GetType().FullName + " 类标注有 [CommandListener] 特性的方法参数类型必须要实现 ICommand 接口。");
+                    Debug.LogError(instance.GetType().FullName + " 类标注有 [Listener] 特性的方法参数类型必须要实现 ICommand 接口。");
                     continue;
                 }
                 // 构造泛型委托类型 InvokeCommandDelegate<T>
@@ -164,6 +169,33 @@ namespace WillFrameworkPro.Core.Context
                 {
                     // 处理委托创建或方法调用中的异常
                     Debug.LogError($"Context 反射注册 Command 方法 {m.Name} 时发生错误: {ex.Message}");
+                }
+            }
+        }
+        /// <summary>
+        /// 构建 State Machine 与 State 集合的映射容器。
+        /// </summary>
+        /// <param name="instance"></param>
+        private void HandleStateMachine(object instance)
+        {
+            if (instance is BaseStateMachine)
+            {
+                Type stateMachine = instance.GetType();
+                // 查找所有公共和非公共的字段（非静态，且不包括继承的）
+                FieldInfo[] fields = instance.GetType().GetFields(BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+                foreach (var field in fields)
+                {
+                    //若字段上面标注有 Inject Attribute
+                    if (field.IsDefined(typeof(InjectAttribute), false))
+                    {
+                        object fieldValue = field.GetValue(instance);
+                        if (fieldValue is BaseState)
+                        {
+                            BaseState state = (BaseState)fieldValue;
+                            //添加映射到 State 容器
+                            StateContainer.AddState(stateMachine, state);
+                        }
+                    }
                 }
             }
         }
@@ -296,11 +328,14 @@ namespace WillFrameworkPro.Core.Context
             _hasStarted = false;
             StartWithViews(localAssembly, views);
         }
-
-        public void Dispose()
+        /// <summary>
+        /// 清空所有的容器
+        /// </summary>
+        public void ClearContainers()
         {
-            _commandContainer?.Dispose();
-            _iocContainer?.Dispose();
+            _commandContainer.Clear();
+            _iocContainer.Clear();
+            _stateContainer.Clear();
         }
     }
 }

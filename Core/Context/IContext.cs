@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using WillFrameworkPro.Core.Containers;
 using WillFrameworkPro.Core.Views;
 
@@ -10,8 +11,12 @@ namespace WillFrameworkPro.Core.Context
         
         CommandContainer CommandContainer { get; }
         
+        StateContainer StateContainer { get; }
+        
         void PresetGeneratedView(IView view);
 
         void StartWithViewsOnSceneLoading(Assembly localAssembly, params IView[] views);
+
+        void ClearContainers();
     }
 }

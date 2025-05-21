@@ -8,7 +8,7 @@ namespace WillFrameworkPro.Core.Views
 {
     public abstract class BaseView : MonoBehaviour, IView
     {
-        private IContext _context;
+        protected IContext _context;
         
         protected virtual void OnDestroy()
         {

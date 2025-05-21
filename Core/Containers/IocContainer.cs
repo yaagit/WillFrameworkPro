@@ -6,7 +6,7 @@ using WillFrameworkPro.Core.Attributes.Types;
 namespace WillFrameworkPro.Core.Containers
 {
     // todo 考虑放弃对 View 的注册
-    public class IocContainer : IDisposable
+    public class IocContainer
     {
         private readonly Dictionary<TypeEnum, Dictionary<Type, List<object>>> _identityIoc;
         
@@ -80,7 +80,7 @@ namespace WillFrameworkPro.Core.Containers
             return result.ToString();
         }
 
-        public void Dispose()
+        public void Clear()
         {
             _identityIoc.Clear();
         }

@@ -5,7 +5,7 @@ using WillFrameworkPro.Core.CommandManager;
 
 namespace WillFrameworkPro.Core.Containers
 {
-    public class CommandContainer : IDisposable
+    public class CommandContainer
     {
         public delegate void InvokeCommandDelegate<T>(T t) where T : ICommand;
         //相当于一个方法的声明,无实用意义
@@ -18,22 +18,7 @@ namespace WillFrameworkPro.Core.Containers
         
         public CommandContainer() {}
         
-        public void UnbindEvents(object user)
-        {
-            if (_autoCheckoutListenerContainer.TryGetValue(user, out Dictionary<Type, List<Delegate>> commandTypeWithDelegates))
-            {
-                foreach (KeyValuePair<Type, List<Delegate>> kv in commandTypeWithDelegates)
-                {
-                    Type commandType = kv.Key;
-                    List<Delegate> userDelegates = kv.Value;
-                    foreach (var del in userDelegates)
-                    {
-                        RemoveCommandListenerImpl(user, commandType, del);
-                    }
-                }
-            }
-            _autoCheckoutListenerContainer.Remove(user);
-        }
+        
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
@@ -151,7 +136,24 @@ namespace WillFrameworkPro.Core.Containers
                 _autoCheckoutListenerContainer.Add(user, newCommandTypeWithDelegates);
             }
         }
-
+        
+        public void UnbindEvents(object user)
+        {
+            if (_autoCheckoutListenerContainer.TryGetValue(user, out Dictionary<Type, List<Delegate>> commandTypeWithDelegates))
+            {
+                foreach (KeyValuePair<Type, List<Delegate>> kv in commandTypeWithDelegates)
+                {
+                    Type commandType = kv.Key;
+                    List<Delegate> userDelegates = kv.Value;
+                    foreach (var del in userDelegates)
+                    {
+                        RemoveCommandListenerImpl(user, commandType, del);
+                    }
+                }
+            }
+            _autoCheckoutListenerContainer.Remove(user);
+        }
+        
         private void RemoveCommandListenerImpl(object user, Type commandType, Delegate del)
         {
             if (_userCommandDelegatesLookup.TryGetValue(user, out Dictionary<Delegate, InvokeCommandDelegate> delegatesLookup))
@@ -179,7 +181,7 @@ namespace WillFrameworkPro.Core.Containers
             }
         }
         
-        public void Dispose()
+        public void Clear()
         {
             _commandDelegates.Clear();
             _userCommandDelegatesLookup.Clear();

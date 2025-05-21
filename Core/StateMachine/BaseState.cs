@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace WillFrameworkPro.Extension.StateMachine
+namespace WillFrameworkPro.Core.StateMachine
 {
     /// <summary>
     /// 状态的基类。用户定义状态，需要继承此基类，并实现状态的逻辑代码。

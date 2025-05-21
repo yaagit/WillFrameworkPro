@@ -24,7 +24,7 @@ namespace WillFrameworkPro.Core
 
         protected virtual void Update()
         {
-            PrintCommandContainerByKeyDown();
+            PrintContainerByKeyDown();
         }
         /// <summary>
         /// 找出场景中的所有对象，包含非激活的
@@ -55,14 +55,16 @@ namespace WillFrameworkPro.Core
 
         private void OnActiveSceneChanged(Scene arg1, Scene arg2)
         {
-            Context.CommandContainer.Dispose();
-            Context.IocContainer.Dispose();
+            //每次场景加载，都先清空容器。
+            Context.ClearContainers();
+            
             BaseView[] views = ScanViewsInTheScene(out Assembly localAssembly);
             Context.StartWithViewsOnSceneLoading(localAssembly, views);
         }
 
         protected virtual void OnDestroy()
         {
+            //每次场景切换，都会销毁所有的 gameObject，本类也不例外。因此，要在销毁方法中注销绑定的事件，防止注册多个重复的 activeSceneChanged 事件和对象得不到回收导致的内存泄露。
             SceneManager.activeSceneChanged -= OnActiveSceneChanged;
         }
         
@@ -70,11 +72,13 @@ namespace WillFrameworkPro.Core
         /// 打印 command 事件容器：
         ///     按下 ctrl + C + M 按键触发打印一次
         /// </summary>
-        public virtual void PrintCommandContainerByKeyDown()
+        public virtual void PrintContainerByKeyDown()
         {
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.C) && Input.GetKeyDown(KeyCode.M))
             {
+                Debug.Log(Context.IocContainer);
                 Debug.Log(Context.CommandContainer);
+                Debug.Log(Context.StateContainer);
             }
         }
     }
