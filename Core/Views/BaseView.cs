@@ -15,10 +15,6 @@ namespace WillFrameworkPro.Core.Views
             _context.IocContainer.Remove(TypeEnum.View, this);
             _context.CommandContainer.UnbindEvents(this);
         }
-        /// <summary>
-        /// 需要子类重写此方法，在 Context 加载时自动调用，执行时机等同于 Awake。
-        /// </summary>
-        public virtual void Initialize() { }
 
         IContext ICanGetContext.GetContext()
         {

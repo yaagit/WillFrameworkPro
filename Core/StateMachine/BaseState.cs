@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace WillFrameworkPro.Core.StateMachine
 {
@@ -18,21 +19,29 @@ namespace WillFrameworkPro.Core.StateMachine
         /// <summary>
         /// 切换状态后调用的第一个方法，仅调用一次。
         /// </summary>
-        public abstract void Enter(GameObject gameObject);
+        public virtual void Enter(GameObject gameObject) {}
 
         /// <summary>
         /// 当前状态在 Unity Update 方法中执行的逻辑
         /// </summary>
-        public abstract void Update(GameObject gameObject);
+        public virtual void Update(GameObject gameObject) {}
 
         /// <summary>
         /// 当前状态在 Unity FixedUpdate 方法中执行的逻辑
         /// </summary>
-        public abstract void FixedUpdate(GameObject gameObject);
+        public virtual void FixedUpdate(GameObject gameObject) {}
 
         /// <summary>
         /// 切换下一个状态之前调用的方法，仅调用一次。
         /// </summary>
-        public abstract void Exit(GameObject gameObject);
+        public virtual void Exit(GameObject gameObject) {}
+        
+        /// <summary>
+        /// 给 State 增加 MonoBehavior 才有的协程方法。
+        /// </summary>
+        protected void StartCoroutine(IEnumerator coroutine)
+        {
+            StateMachine.StartCoroutine(coroutine);
+        }
     }
 }

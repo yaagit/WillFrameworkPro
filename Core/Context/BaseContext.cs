@@ -7,6 +7,7 @@ using WillFrameworkPro.Core.Attributes.Types;
 using WillFrameworkPro.Core.Attributes.Injection;
 using WillFrameworkPro.Core.CommandManager;
 using WillFrameworkPro.Core.Containers;
+using WillFrameworkPro.Core.Initialize;
 using WillFrameworkPro.Core.Rules;
 using WillFrameworkPro.Core.StateMachine;
 using WillFrameworkPro.Core.Views;
@@ -202,9 +203,9 @@ namespace WillFrameworkPro.Core.Context
 
         private void HandleAutoInitialize(object instance)
         {
-            if (instance is IView view)
+            if (instance is IAutoInitialize auto)
             {
-                view.Initialize();
+                auto.Initialize();
             }
         }
         private TypeEnum GetIdentityTypeByType(Type type)

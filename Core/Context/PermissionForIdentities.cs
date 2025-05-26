@@ -7,7 +7,7 @@ namespace WillFrameworkPro.Core.Context
         public static PermissionFlags View = PermissionFlags._None | PermissionFlags.InjectModel | PermissionFlags.InjectService;
         public static PermissionFlags Service = PermissionFlags._None | PermissionFlags.InjectModel | PermissionFlags.InjectHighLevelCommandManager;
         public static PermissionFlags Model = PermissionFlags._None;
-        public static PermissionFlags Identity = PermissionFlags._None;
+        public static PermissionFlags General = PermissionFlags._None | PermissionFlags.InjectCommandManager;
 
         public static PermissionFlags GetPermissionsByIdentityType(TypeEnum typeEnum)
         {
@@ -20,7 +20,7 @@ namespace WillFrameworkPro.Core.Context
                 case TypeEnum.Model:
                     return Model;
             }
-            return Identity;
+            return General;
         }
     }
 }

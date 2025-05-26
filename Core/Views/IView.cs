@@ -4,6 +4,6 @@ namespace WillFrameworkPro.Core.Views
 {
     public interface IView : ICanGetContext, ICanSetContext
     {
-        void Initialize();
+        
     }
 }

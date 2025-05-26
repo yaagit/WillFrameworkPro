@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 using WillFrameworkPro.Core.Attributes.Types;
 using WillFrameworkPro.Core.Views;
 
@@ -10,7 +11,8 @@ namespace WillFrameworkPro.Core.StateMachine
     /// <typeparam name="T"></typeparam>
     public abstract class BaseStateMachine : BaseView
     {
-        private BaseState _currentState;//当前持有的 State 对象（当前状态）
+        protected BaseState LastState { get; private set; }//上一个 State
+        protected BaseState CurrentState { get; private set; }//当前持有的 State 对象（当前状态）
 
         /// <summary>
         /// ！！！设置当前的状态, 然后执行 State 对象的生命周期方法。
@@ -19,15 +21,18 @@ namespace WillFrameworkPro.Core.StateMachine
         /// <exception cref="Exception"></exception>
         public void SetCurrentState(BaseState state)
         {
+            //记录上一个状态
+            LastState = CurrentState;
             //如果当前状态相同，没必要重复切换
-            if (state == _currentState)
+            if (state == CurrentState)
             {
                 return;
             }
-            _currentState?.Exit(gameObject);
-            _currentState = state;
-            _currentState.StateMachine = this;
-            _currentState?.Enter(gameObject);
+            CurrentState?.Exit(gameObject);
+            //更新当前状态
+            CurrentState = state;
+            CurrentState.StateMachine = this;
+            CurrentState?.Enter(gameObject);
 
         }
         /// <summary>
@@ -36,7 +41,7 @@ namespace WillFrameworkPro.Core.StateMachine
         /// <returns></returns>
         public BaseState GetCurrentState()
         {
-            return _currentState;
+            return CurrentState;
         }
         
         /// <summary>
@@ -44,7 +49,7 @@ namespace WillFrameworkPro.Core.StateMachine
         /// </summary>
         protected virtual void FixedUpdate()
         {
-            _currentState?.FixedUpdate(gameObject);
+            CurrentState?.FixedUpdate(gameObject);
         }
         
         /// <summary>
@@ -52,7 +57,7 @@ namespace WillFrameworkPro.Core.StateMachine
         /// </summary>
         protected virtual void Update()
         {
-            _currentState?.Update(gameObject);
+            CurrentState?.Update(gameObject);
         }
 
         protected override void OnDestroy()
@@ -66,6 +71,16 @@ namespace WillFrameworkPro.Core.StateMachine
             }
             //所有 State 对象的事件已经注销，清理 StateContainer
             _context.StateContainer.ClearStates(GetType());
+        }
+        /// <summary>
+        /// 返回到上一个状态
+        /// </summary>
+        public void ReturnLastState()
+        {
+            if (LastState != null)
+            {
+                SetCurrentState(LastState);
+            }
         }
     }
 }
