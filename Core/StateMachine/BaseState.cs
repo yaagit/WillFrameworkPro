@@ -14,7 +14,7 @@ namespace WillFrameworkPro.Core.StateMachine
         {
             protected get; set;
         }
-        
+
         //todo 以后可以加入其他状态事件方法，例如 collisionEnter, collisionExit... 等等
         /// <summary>
         /// 切换状态后调用的第一个方法，仅调用一次。
