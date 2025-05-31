@@ -256,34 +256,34 @@ namespace WillFrameworkPro.Core.Context
                     }
                     if (fieldTypeEnum == TypeEnum.Model)
                     {
-                        ValidatePermissions(permissions, PermissionFlags.InjectModel, type, fieldTypeEnum);
+                        ValidatePermissions(permissions, PermissionFlags.Model, type, fieldTypeEnum);
                         SetInstanceField(fieldTypeEnum, fieldType, instance, f);
                         continue;
                     }
                     if (fieldTypeEnum == TypeEnum.Service)
                     {
-                        ValidatePermissions(permissions, PermissionFlags.InjectService, type, fieldTypeEnum);
+                        ValidatePermissions(permissions, PermissionFlags.Service, type, fieldTypeEnum);
                         SetInstanceField(fieldTypeEnum, fieldType, instance, f);
                         continue;
                     }
                     if (fieldTypeEnum == TypeEnum.View)
                     {
-                        ValidatePermissions(permissions, PermissionFlags.InjectView, type, fieldTypeEnum);
+                        ValidatePermissions(permissions, PermissionFlags.View, type, fieldTypeEnum);
                         SetInstanceField(fieldTypeEnum, fieldType, instance, f);
                         continue;
                     }
 
                     if (fieldTypeEnum == TypeEnum.General)
                     {
-                        if (fieldType == typeof(LowLevelCommandManager) && !permissions.HasFlag(PermissionFlags.InjectLowLevelCommandManager))
+                        if (fieldType == typeof(LowLevelCommandManager) && !permissions.HasFlag(PermissionFlags.LowLevelCommandManager))
                         {
                             throw new Exception($"{type.FullName} 不允许注入 {nameof(LowLevelCommandManager)} 类型字段");
                         }
-                        if (fieldType == typeof(HighLevelCommandManager) && !permissions.HasFlag(PermissionFlags.InjectHighLevelCommandManager))
+                        if (fieldType == typeof(HighLevelCommandManager) && !permissions.HasFlag(PermissionFlags.HighLevelCommandManager))
                         {
                             throw new Exception($"{type.FullName} 不允许注入 {nameof(HighLevelCommandManager)} 类型字段");
                         }
-                        if (fieldType == typeof(CommandManager.CommandManager) && !permissions.HasFlag(PermissionFlags.InjectCommandManager))
+                        if (fieldType == typeof(CommandManager.CommandManager) && !permissions.HasFlag(PermissionFlags.CommandManager))
                         {
                             throw new Exception($"{type.FullName} 不允许注入 {nameof(CommandManager)} 类型字段");
                         }

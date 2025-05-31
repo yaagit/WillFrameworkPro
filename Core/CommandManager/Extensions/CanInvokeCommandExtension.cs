@@ -5,7 +5,7 @@ namespace WillFrameworkPro.Core.CommandManager.Extensions
 {
     public static class CanInvokeCommandExtension
     {
-        public static void InvokeCommand(this ICanInvokeCommand self, ICommand command)
+        public static void Invoke(this ICanInvokeCommand self, ICommand command)
         {
             if (self == null)
             {

@@ -6,14 +6,13 @@ namespace WillFrameworkPro.Core.Context
     internal enum PermissionFlags : uint
     {
         _None = 0,
-        InjectView = 0b00000000000000000000000000000001,
-        InjectService = InjectView << 1,
-        InjectModel = InjectView << 2, 
-        InjectController = InjectView << 3,
-        #region CommandManager 细化
-        InjectHighLevelCommandManager = InjectView << 4,
-        InjectLowLevelCommandManager = InjectView << 5,
-        InjectCommandManager = InjectView << 6,
-        #endregion
+        View = 0b00000000000000000000000000000001,
+        Service = View << 1,
+        Model = View << 2, 
+        Controller = View << 3,
+        // --- command manager
+        HighLevelCommandManager = View << 4,
+        LowLevelCommandManager = View << 5,
+        CommandManager = View << 6,
     }
 }

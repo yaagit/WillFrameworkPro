@@ -4,10 +4,10 @@ namespace WillFrameworkPro.Core.Context
 {
     internal static class PermissionForIdentities
     {
-        public static PermissionFlags View = PermissionFlags._None | PermissionFlags.InjectModel | PermissionFlags.InjectService;
-        public static PermissionFlags Service = PermissionFlags._None | PermissionFlags.InjectModel | PermissionFlags.InjectHighLevelCommandManager;
+        public static PermissionFlags View = PermissionFlags._None | PermissionFlags.Model | PermissionFlags.Service;
+        public static PermissionFlags Service = PermissionFlags._None | PermissionFlags.Model | PermissionFlags.HighLevelCommandManager;
         public static PermissionFlags Model = PermissionFlags._None;
-        public static PermissionFlags General = PermissionFlags._None | PermissionFlags.InjectCommandManager;
+        public static PermissionFlags General = PermissionFlags._None | PermissionFlags.CommandManager;
 
         public static PermissionFlags GetPermissionsByIdentityType(TypeEnum typeEnum)
         {
