@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace WillFrameworkPro.Core.StateMachine
+namespace WillFrameworkPro.StateMachine
 {
     /// <summary>
     /// 状态的基类。用户定义状态，需要继承此基类，并实现状态的逻辑代码。
@@ -34,14 +34,21 @@ namespace WillFrameworkPro.Core.StateMachine
         /// <summary>
         /// 切换下一个状态之前调用的方法，仅调用一次。
         /// </summary>
-        public virtual void Exit(GameObject gameObject) {}
+        public virtual void Exit(GameObject gameObject, BaseState nextState) {}
         
         /// <summary>
         /// 给 State 增加 MonoBehavior 才有的协程方法。
         /// </summary>
-        protected void StartCoroutine(IEnumerator coroutine)
+        protected Coroutine StartCoroutine(IEnumerator processing)
         {
-            StateMachine.StartCoroutine(coroutine);
+            return StateMachine.StartCoroutine(processing);
+        }
+        /// <summary>
+        /// 给 State 增加 MonoBehavior 才有的结束协程方法。
+        /// </summary>
+        protected void StopCoroutine(Coroutine coroutine)
+        {
+            StateMachine.StopCoroutine(coroutine);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using WillFrameworkPro.Core.Attributes.Types;
-using WillFrameworkPro.Core.StateMachine;
+using WillFrameworkPro.StateMachine;
 
 namespace WillFrameworkPro.Core.Tools.Animator
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using WillFrameworkPro.Core.Attributes.Types;
-using WillFrameworkPro.Core.StateMachine;
+using WillFrameworkPro.StateMachine;
 
 namespace WillFrameworkPro.Core.Containers
 {

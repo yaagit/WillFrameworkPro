@@ -9,8 +9,8 @@ using WillFrameworkPro.Core.CommandManager;
 using WillFrameworkPro.Core.Containers;
 using WillFrameworkPro.Core.Initialize;
 using WillFrameworkPro.Core.Rules;
-using WillFrameworkPro.Core.StateMachine;
 using WillFrameworkPro.Core.Views;
+using WillFrameworkPro.StateMachine;
 
 namespace WillFrameworkPro.Core.Context
 {
