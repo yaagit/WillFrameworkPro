@@ -66,10 +66,14 @@ namespace WillFrameworkPro.Core.Views
             else
             {
                 GameObject go = instance as GameObject;
-                view = go.GetComponent<IView>();
-                if (view != null)
+                // 如果实例化的对象是 Material 或其他某些特殊类型的对象（此类对象无法转化成 GameObject）
+                if (go != null)
                 {
-                    _context.PresetGeneratedView(view);
+                    view = go.GetComponent<IView>();
+                    if (view != null)
+                    {
+                        _context.PresetGeneratedView(view);
+                    }
                 }
             }
         }
