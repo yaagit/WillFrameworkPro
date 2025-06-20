@@ -132,13 +132,32 @@ namespace WillFrameworkPro.Core.Context
             }
             
         }
-
+        /// <summary>
+        /// 递归查找所有（包括父类）的 listener 方法。
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private List<MethodInfo> FindAllListenerMethods(Type type)
+        {
+            var result = new List<MethodInfo>();
+            while (type != null && type != typeof(object))
+            {
+                //只查当前类型声明的实例方法
+                var methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+                foreach (var m in methods)
+                {
+                    if (m.IsDefined(typeof(ListenerAttribute), false)) // false：只查当前方法声明的 Attribute
+                    {
+                        result.Add(m);
+                    }
+                }
+                type = type.BaseType;
+            }
+            return result;
+        }
         private void HandleCommandListener(object instance)
         {
-            // 查找所有公共和非公共的实例方法（非静态，且不包括继承的）
-            MethodInfo[] methods = instance.GetType().GetMethods(BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
-            // 使用 LINQ 查找带有特定 Attribute 的方法
-            var methodsWithAttribute = methods.Where(m => m.IsDefined(typeof(ListenerAttribute), false)).ToList();
+            var methodsWithAttribute = FindAllListenerMethods(instance.GetType());
             foreach (var m in methodsWithAttribute)
             {
                 var parameters = m.GetParameters();

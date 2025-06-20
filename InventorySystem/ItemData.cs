@@ -12,6 +12,7 @@ namespace WillFrameworkPro.InventorySystem
         public Sprite Icon;
         public bool IsStackable; //是否可堆叠？false 时，每一个物品都单独占用一个格子，不会堆叠在同一个格子然后数量显示。
         public int MaxStack; //最高可堆叠数量
+        public ItemCategory Category;//item 所属种类
         public ItemData(BaseItemDefinition def, int amount)
         {
             ID = def.ID;
@@ -20,6 +21,7 @@ namespace WillFrameworkPro.InventorySystem
             IsStackable = def.IsStackable;
             MaxStack = def.MaxStack;
             Amount = amount;
+            Category = def.Category;
         }
     }
 }

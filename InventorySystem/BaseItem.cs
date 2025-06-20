@@ -5,8 +5,13 @@ using WillFrameworkPro.Editor.ReadOnly;
 
 namespace WillFrameworkPro.InventorySystem
 {
+    public enum ItemCategory
+    {
+        None, FreeHand, MeleeWeapon, GunWeapon, Ammo, Health, KeyItem
+    }
+    
     /// <summary>
-    /// 库存物品的类型
+    /// 库存物品的基类
     /// </summary>
     [Serializable]
     public class BaseItem : BaseView
@@ -34,7 +39,10 @@ namespace WillFrameworkPro.InventorySystem
         [ReadOnly]
         [SerializeField]
         private int _maxStack;//最高可堆叠数量
-
+        [ReadOnly]
+        [SerializeField]
+        private ItemCategory _category;//item 所属种类
+        
         private void Awake()
         {
             _ID = _itemDefinition.ID;
@@ -42,6 +50,7 @@ namespace WillFrameworkPro.InventorySystem
             _icon = _itemDefinition.Icon;
             _isStackable = _itemDefinition.IsStackable;
             _maxStack = _itemDefinition.MaxStack;
+            _category = _itemDefinition.Category;
         }
         /// <summary>
         /// 将数据转换为可以提供给 Slot 存储的数据形式：ItemData.

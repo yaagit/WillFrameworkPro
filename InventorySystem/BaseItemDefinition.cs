@@ -6,6 +6,7 @@ namespace WillFrameworkPro.InventorySystem
     [CreateAssetMenu(fileName = "NewItem", menuName = "Inventory/Item")]
     public class BaseItemDefinition : ScriptableObject
     {
+        public ItemCategory Category;//item 所属种类
         public string ID;
         public string Name;
         public Sprite Icon;
