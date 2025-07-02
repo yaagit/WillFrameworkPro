@@ -25,6 +25,11 @@ namespace WillFrameworkPro.StateMachine
         /// 当前状态在 Unity Update 方法中执行的逻辑
         /// </summary>
         public virtual void Update(GameObject gameObject) {}
+        
+        /// <summary>
+        /// 当前状态在 Unity LateUpdate 方法中执行的逻辑
+        /// </summary>
+        public virtual void LateUpdate(GameObject gameObject) {}
 
         /// <summary>
         /// 当前状态在 Unity FixedUpdate 方法中执行的逻辑

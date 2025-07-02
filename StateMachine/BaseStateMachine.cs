@@ -109,6 +109,21 @@ namespace WillFrameworkPro.StateMachine
                 }
             }
         }
+        /// <summary>
+        /// ！！！子类重写 LateUpdate 方法时，请手动执行 base.LateUpdate()。
+        /// </summary>
+        protected virtual void LateUpdate()
+        {
+            CurrentState?.LateUpdate(gameObject);
+            //执行 parallel state
+            if (ParallelStateList != null)
+            {
+                foreach (var state in ParallelStateList)
+                {
+                    state.LateUpdate(gameObject);
+                }
+            }
+        }
 
         protected override void OnDestroy()
         {
