@@ -133,11 +133,11 @@ namespace WillFrameworkPro.Core.Context
             
         }
         /// <summary>
-        /// 递归查找所有（包括父类）的 listener 方法。
+        /// 递归查找所有（包括父类）的 Attribute 方法。
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        private List<MethodInfo> FindAllListenerMethods(Type type)
+        private List<MethodInfo> FindAllAttributeMethods<T>(Type type) where T : Attribute
         {
             var result = new List<MethodInfo>();
             while (type != null && type != typeof(object))
@@ -146,7 +146,7 @@ namespace WillFrameworkPro.Core.Context
                 var methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
                 foreach (var m in methods)
                 {
-                    if (m.IsDefined(typeof(ListenerAttribute), false)) // false：只查当前方法声明的 Attribute
+                    if (m.IsDefined(typeof(T), false)) // false：只查当前方法声明的 Attribute
                     {
                         result.Add(m);
                     }
@@ -155,9 +155,32 @@ namespace WillFrameworkPro.Core.Context
             }
             return result;
         }
+        /// <summary>
+        /// 递归查找所有（包括父类）的 Attribute 字段。
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private List<FieldInfo> FindAllAttributeFields<T>(Type type) where T : Attribute
+        {
+            var result = new List<FieldInfo>();
+            while (type != null && type != typeof(object))
+            {
+                //只查当前类型声明的实例方法
+                var fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+                foreach (var f in fields)
+                {
+                    if (f.IsDefined(typeof(T), false)) // false：只查当前字段声明的 Attribute
+                    {
+                        result.Add(f);
+                    }
+                }
+                type = type.BaseType;
+            }
+            return result;
+        }
         private void HandleCommandListener(object instance)
         {
-            var methodsWithAttribute = FindAllListenerMethods(instance.GetType());
+            var methodsWithAttribute = FindAllAttributeMethods<ListenerAttribute>(instance.GetType());
             foreach (var m in methodsWithAttribute)
             {
                 var parameters = m.GetParameters();
@@ -261,54 +284,50 @@ namespace WillFrameworkPro.Core.Context
         private void InjectByPermission(object instance, PermissionFlags permissions)
         {
             Type type = instance.GetType();
-            FieldInfo[] fieldInfos = type.GetFields(BindingFlags.DeclaredOnly | BindingFlags.NonPublic |
-                                                    BindingFlags.Public | BindingFlags.Instance);
+            List<FieldInfo> fieldInfos = FindAllAttributeFields<InjectAttribute>(type);
             foreach (FieldInfo f in fieldInfos)
             {
-                if (f.GetCustomAttribute(typeof(InjectAttribute)) is InjectAttribute injectAttr)
+                Type fieldType = f.FieldType;
+                TypeEnum fieldTypeEnum = GetIdentityTypeByType(fieldType);
+                if (fieldTypeEnum == TypeEnum._None)
                 {
-                    Type fieldType = f.FieldType;
-                    TypeEnum fieldTypeEnum = GetIdentityTypeByType(fieldType);
-                    if (fieldTypeEnum == TypeEnum._None)
-                    {
-                        throw new Exception($"{type.FullName} 无法注入非托管类型: {fieldType.FullName}");
-                    }
-                    if (fieldTypeEnum == TypeEnum.Model)
-                    {
-                        ValidatePermissions(permissions, PermissionFlags.Model, type, fieldTypeEnum);
-                        SetInstanceField(fieldTypeEnum, fieldType, instance, f);
-                        continue;
-                    }
-                    if (fieldTypeEnum == TypeEnum.Service)
-                    {
-                        ValidatePermissions(permissions, PermissionFlags.Service, type, fieldTypeEnum);
-                        SetInstanceField(fieldTypeEnum, fieldType, instance, f);
-                        continue;
-                    }
-                    if (fieldTypeEnum == TypeEnum.View)
-                    {
-                        ValidatePermissions(permissions, PermissionFlags.View, type, fieldTypeEnum);
-                        SetInstanceField(fieldTypeEnum, fieldType, instance, f);
-                        continue;
-                    }
+                    throw new Exception($"{type.FullName} 无法注入非托管类型: {fieldType.FullName}");
+                }
+                if (fieldTypeEnum == TypeEnum.Model)
+                {
+                    ValidatePermissions(permissions, PermissionFlags.Model, type, fieldTypeEnum);
+                    SetInstanceField(fieldTypeEnum, fieldType, instance, f);
+                    continue;
+                }
+                if (fieldTypeEnum == TypeEnum.Service)
+                {
+                    ValidatePermissions(permissions, PermissionFlags.Service, type, fieldTypeEnum);
+                    SetInstanceField(fieldTypeEnum, fieldType, instance, f);
+                    continue;
+                }
+                if (fieldTypeEnum == TypeEnum.View)
+                {
+                    ValidatePermissions(permissions, PermissionFlags.View, type, fieldTypeEnum);
+                    SetInstanceField(fieldTypeEnum, fieldType, instance, f);
+                    continue;
+                }
 
-                    if (fieldTypeEnum == TypeEnum.General)
+                if (fieldTypeEnum == TypeEnum.General)
+                {
+                    if (fieldType == typeof(LowLevelCommandManager) && !permissions.HasFlag(PermissionFlags.LowLevelCommandManager))
                     {
-                        if (fieldType == typeof(LowLevelCommandManager) && !permissions.HasFlag(PermissionFlags.LowLevelCommandManager))
-                        {
-                            throw new Exception($"{type.FullName} 不允许注入 {nameof(LowLevelCommandManager)} 类型字段");
-                        }
-                        if (fieldType == typeof(HighLevelCommandManager) && !permissions.HasFlag(PermissionFlags.HighLevelCommandManager))
-                        {
-                            throw new Exception($"{type.FullName} 不允许注入 {nameof(HighLevelCommandManager)} 类型字段");
-                        }
-                        if (fieldType == typeof(CommandManager.CommandManager) && !permissions.HasFlag(PermissionFlags.CommandManager))
-                        {
-                            throw new Exception($"{type.FullName} 不允许注入 {nameof(CommandManager)} 类型字段");
-                        }
-                        SetInstanceField(fieldTypeEnum, fieldType, instance, f);
-                        continue;
+                        throw new Exception($"{type.FullName} 不允许注入 {nameof(LowLevelCommandManager)} 类型字段");
                     }
+                    if (fieldType == typeof(HighLevelCommandManager) && !permissions.HasFlag(PermissionFlags.HighLevelCommandManager))
+                    {
+                        throw new Exception($"{type.FullName} 不允许注入 {nameof(HighLevelCommandManager)} 类型字段");
+                    }
+                    if (fieldType == typeof(CommandManager.CommandManager) && !permissions.HasFlag(PermissionFlags.CommandManager))
+                    {
+                        throw new Exception($"{type.FullName} 不允许注入 {nameof(CommandManager)} 类型字段");
+                    }
+                    SetInstanceField(fieldTypeEnum, fieldType, instance, f);
+                    continue;
                 }
             }
         }

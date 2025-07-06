@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using WillFrameworkPro.Core.Attributes.Injection;
 using WillFrameworkPro.Core.Attributes.Types;
 using Random = UnityEngine.Random;
@@ -134,6 +135,52 @@ namespace WillFrameworkPro.Tools
             source.PlayOneShot(clip, scale);
         }
     }
+
+    [General]
+    public class Canvas
+    {
+        /// <summary>
+        /// 指定 canvas group 的目标不透明度（范围：0 ~ 1），在规定的时间内完成渐进式切换。
+        /// </summary>
+        public IEnumerator CanvasGroupAlphaFadeTo(CanvasGroup group, float targetAlpha, float duration)
+        {
+            float startAlpha = group.alpha;
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+                group.alpha = Mathf.Lerp(startAlpha, targetAlpha, t);
+                yield return null;
+            }
+
+            group.alpha = targetAlpha;
+        }
+        /// <summary>
+        /// 指定 image 的目标不透明度（范围：0 ~ 255），在规定的时间内完成渐进式切换。并在完成后执行可选的后处理回调。
+        /// </summary>
+        public IEnumerator ImageColorAlphaFadeTo(Image image, float targetAlpha, float duration, Action postProcessing = null)
+        {
+            Color startColor = image.color;
+            float startAlpha = image.color.a;
+            float convertedAlpha = Mathf.Clamp01(targetAlpha / 255f); //Image.color.a 接受 0~1 的浮点数，这里转换一下。
+            float timer = 0f;
+
+            while (timer < duration)
+            {
+                timer += Time.deltaTime;
+                float t = Mathf.Clamp01(timer / duration);
+                float newAlpha = Mathf.Lerp(startAlpha, convertedAlpha, t);
+                image.color = new Color(startColor.r, startColor.g, startColor.b, newAlpha);
+                yield return null;
+            }
+            // 确保最终值精确
+            image.color = new Color(startColor.r, startColor.g, startColor.b, convertedAlpha);
+            //执行后处理（可选）
+            postProcessing?.Invoke();
+        }
+    }
     /// <summary>
     /// 主要工具类。
     /// </summary>
@@ -144,5 +191,7 @@ namespace WillFrameworkPro.Tools
         public Anim Animator;
         [Inject] 
         public Audio Audio;
+        [Inject] 
+        public Canvas Canvas;
     }
 }
