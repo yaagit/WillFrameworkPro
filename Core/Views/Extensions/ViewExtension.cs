@@ -6,7 +6,7 @@ namespace WillFrameworkPro.Core.Views.Extensions
 {
     public static class ViewExtension
     {
-        public static void Invoke(this IView self, ICommand command)
+        public static void InvokeCommand(this IView self, ICommand command)
         {
             if (self == null || self.GetContext() == null)
             {

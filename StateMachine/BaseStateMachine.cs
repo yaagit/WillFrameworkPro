@@ -34,6 +34,7 @@ namespace WillFrameworkPro.StateMachine
             }
             state.StateMachine = this;
             ParallelStateList.Add(state);
+            //ParallelState 没有状态切换这个一说。自添加起，就一直在 “异步执行”。
             state.Enter(gameObject);
         }
         /// <summary>
