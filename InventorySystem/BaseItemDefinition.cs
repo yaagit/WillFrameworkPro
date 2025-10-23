@@ -1,5 +1,7 @@
 using System;
+using UnityEditor;
 using UnityEngine;
+using WillFrameworkPro.Editor.ReadOnly;
 
 namespace WillFrameworkPro.InventorySystem
 {
@@ -7,6 +9,7 @@ namespace WillFrameworkPro.InventorySystem
     public class BaseItemDefinition : ScriptableObject
     {
         public ItemCategory Category;//item 所属种类
+        [ReadOnly]
         public string ID;
         public string Name;
         public Sprite Icon;
@@ -16,9 +19,10 @@ namespace WillFrameworkPro.InventorySystem
         #if UNITY_EDITOR
         private void OnValidate()
         {
+            // 仅在编辑器中首次创建时生成 ID，不在运行时生成
             if (string.IsNullOrEmpty(ID))
             {
-                ID = Guid.NewGuid().ToString("N"); //去掉 "-"
+                ID = GUID.Generate().ToString(); // UnityEditor.GUID 比 System.Guid 更符合编辑器习惯
                 //标记当前对象 this 为“已修改”，告诉 Unity 需要保存它的状态
                 UnityEditor.EditorUtility.SetDirty(this);
             }
