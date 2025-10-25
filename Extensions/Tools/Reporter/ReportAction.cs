@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WillFrameworkPro.Core.Reporter
+namespace WillFrameworkPro.Tools.Reporter
 {
     public class ReportAction<T>
     {

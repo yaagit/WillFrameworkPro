@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using WillFrameworkPro.Core.Attributes.Types;
 using WillFrameworkPro.Core.Context;
 using WillFrameworkPro.Core.Rules;
@@ -58,22 +59,18 @@ namespace WillFrameworkPro.Core.Views
 
         private void HandleInstantiated<T>(T instance) where T : Object
         {
-            IView view = instance as IView;
-            if (view != null)
+            if (instance == null)
+                return;
+            // 只处理 GameObject 实例（Material 可以被实例化，但不属于 GameObject）
+            if (instance is GameObject go)
             {
-                _context.PresetGeneratedView(view);
-            }
-            else
-            {
-                GameObject go = instance as GameObject;
-                // 如果实例化的对象是 Material 或其他某些特殊类型的对象（此类对象无法转化成 GameObject）
-                if (go != null)
+                // 包括根对象和所有子对象上的所有 IView
+                var allViews = go.GetComponents<IView>()
+                    .Concat(go.GetComponentsInChildren<IView>(true))
+                    .Distinct();
+                foreach (var view in allViews)
                 {
-                    view = go.GetComponent<IView>();
-                    if (view != null)
-                    {
-                        _context.PresetGeneratedView(view);
-                    }
+                    _context.PresetGeneratedView(view);
                 }
             }
         }

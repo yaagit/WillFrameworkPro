@@ -6,7 +6,7 @@ using WillFrameworkPro.Core.Attributes.Injection;
 using WillFrameworkPro.Core.Attributes.Types;
 using Random = UnityEngine.Random;
 
-namespace WillFrameworkPro.Tools
+namespace WillFrameworkPro.Extensions.Tools
 {
     [General]
     public class Anim
@@ -19,7 +19,7 @@ namespace WillFrameworkPro.Tools
         /// <param name="targetWeight">目标要达到的权重</param>
         /// <param name="duration">持续时间</param>
         /// <returns></returns>
-        public IEnumerator BlendOutAnimatorLayer(Animator animator, int layerIndex, float targetWeight, float duration, Action postprocessing)
+        public IEnumerator BlendOutAnimatorLayer(UnityEngine.Animator animator, int layerIndex, float targetWeight, float duration, Action postprocessing)
         {
             float startWeight = animator.GetLayerWeight(layerIndex);
             float time = 0f;

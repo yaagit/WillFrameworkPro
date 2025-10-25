@@ -5,7 +5,7 @@ using UnityEngine;
 using WillFrameworkPro.Core.Attributes.Types;
 using WillFrameworkPro.StateMachine;
 
-namespace WillFrameworkPro.Core.Tools.Animator
+namespace WillFrameworkPro.Tools.Animator
 {
     [General]
     public class AnimatorTool
