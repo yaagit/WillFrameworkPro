@@ -11,13 +11,12 @@ using WillFrameworkPro.Core.Initialize;
 using WillFrameworkPro.Core.Rules;
 using WillFrameworkPro.Core.Views;
 using WillFrameworkPro.StateMachine;
+using WillFrameworkPro.Tools.TagManager;
 
 namespace WillFrameworkPro.Core.Context
 {
     public class BaseContext<T> : IContext where T : BaseContext<T>
     {
-        //防止重复启动
-        private bool _hasStarted = false; 
         // --- IOC 容器 ---
         private readonly IocContainer _iocContainer = new();
         public IocContainer IocContainer { get => _iocContainer;}
@@ -58,9 +57,9 @@ namespace WillFrameworkPro.Core.Context
         #endregion
         
         #region 扫描类上面的特性, 添加进相应的 container
-        private void ScanTypeAttributesByAssembly(Assembly assembly)
+        private void ScanTypesOfBaseAttribute()
         {
-            Type[] types = assembly.GetTypes();
+            Type[] types =  GetType().Assembly.GetTypes();
             foreach (var t in types)
             {
                 BaseAttribute attribute = t.GetCustomAttribute(typeof(BaseAttribute)) as BaseAttribute;
@@ -331,41 +330,28 @@ namespace WillFrameworkPro.Core.Context
                 }
             }
         }
-
-        //View 类通常需要继承 MonoBehaviour, 对象创建不受框架控制, 因此要从 Unity 获取作为启动参数传入
-        private void StartWithViews(Assembly assembly, IView[] views)
+        /// <summary>
+        /// View 类通常需要继承 MonoBehaviour, 对象创建不受框架控制, 因此要从 Unity 获取作为启动参数传入
+        /// </summary>
+        public void StartWithViewsOnSceneLoading(params IView[] views)
         {
-            if (!_hasStarted)
+            Debug.Log("-------------- WillFrameworkPro Context 开始执行 --------------");
+            DateTime startTime = DateTime.Now;
+            if (views.Length != 0)
             {
-                Debug.Log("-------------- Context 开始执行 --------------");
-                DateTime startTime = DateTime.Now;
-                if (views.Length != 0)
+                foreach (IView v in views)
                 {
-                    foreach (IView v in views)
-                    {
-                        v.SetContext(Instance);;
-                        IocContainer.Add(TypeEnum.View, v);
-                    }
+                    v.SetContext(Instance);;
+                    IocContainer.Add(TypeEnum.View, v);
                 }
-                //扫描自定义的 assembly 并添加进 IOC 容器
-                ScanTypeAttributesByAssembly(assembly);
-                Assembly frameworkAssembly = Assembly.GetAssembly(typeof(T));
-                //扫描 WillFrameworkPro 的所有类，筛选后添加进 IOC 容器
-                ScanTypeAttributesByAssembly(frameworkAssembly);
-                //注入依赖 + 调用初始化
-                HandleIdentities();
-                Debug.Log($"-------------- Context 执行完毕, 用时: {(DateTime.Now - startTime).Milliseconds} ms --------------");
-                Debug.Log(_iocContainer);
-                Debug.Log(CommandContainer);
-                //启动过后更新状态为：已启动
-                _hasStarted = true;
             }
-        }
-
-        public void StartWithViewsOnSceneLoading(Assembly localAssembly, params IView[] views)
-        {
-            _hasStarted = false;
-            StartWithViews(localAssembly, views);
+            //扫描添加有 BaseAttribute 的所有类型，并添加进 IOC 容器
+            ScanTypesOfBaseAttribute();
+            //注入依赖 + 调用初始化
+            HandleIdentities();
+            Debug.Log($"-------------- WillFrameworkPro Context 执行完毕, 用时: {(DateTime.Now - startTime).Milliseconds} ms --------------");
+            Debug.Log(_iocContainer);
+            Debug.Log(CommandContainer);
         }
         /// <summary>
         /// 清空所有的容器
@@ -375,6 +361,7 @@ namespace WillFrameworkPro.Core.Context
             _commandContainer.Clear();
             _iocContainer.Clear();
             _stateContainer.Clear();
+            TagManager.Clear();
         }
     }
 }

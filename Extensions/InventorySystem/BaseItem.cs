@@ -1,7 +1,8 @@
 ﻿using System;
 using UnityEngine;
+using WillFrameworkPro.Attributes.ReadOnly;
 using WillFrameworkPro.Core.Views;
-using WillFrameworkPro.Editor.ReadOnly;
+using WillFrameworkPro.Extensions.InventorySystem;
 
 namespace WillFrameworkPro.InventorySystem
 {

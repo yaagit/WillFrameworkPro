@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using WillFrameworkPro.Core.Attributes.Types;
-using WillFrameworkPro.Core.Attributes.Injection;
 using WillFrameworkPro.Core.Context;
 using WillFrameworkPro.Core.Views;
 using WillFrameworkPro.Tools.TagManager;
@@ -29,12 +26,9 @@ namespace WillFrameworkPro.Core
         /// <summary>
         /// 找出场景中的所有对象，包含非激活的
         /// </summary>
-        /// <param name="localAssembly">当前场景代码所属的 assembly</param>
-        /// <returns></returns>
-        private BaseView[] ScanViewsInTheScene(out Assembly localAssembly)
+        private BaseView[] ScanViewsInTheScene()
         {
             //查找出场景中的所有对象，包含非激活的，不排序
-            localAssembly = GetType().Assembly;
             var sceneObjectList = FindObjectsByType<GameObject>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             List<BaseView> resultViewList = new();
             foreach (var so in sceneObjectList)
@@ -49,7 +43,6 @@ namespace WillFrameworkPro.Core
                     resultViewList.Add(v);
                 }
             }
-            
             return resultViewList.ToArray();
         }
 
@@ -58,8 +51,8 @@ namespace WillFrameworkPro.Core
             //每次场景加载，都先清空容器。
             Context.ClearContainers();
             
-            BaseView[] views = ScanViewsInTheScene(out Assembly localAssembly);
-            Context.StartWithViewsOnSceneLoading(localAssembly, views);
+            BaseView[] views = ScanViewsInTheScene();
+            Context.StartWithViewsOnSceneLoading(views);
         }
 
         protected virtual void OnDestroy()

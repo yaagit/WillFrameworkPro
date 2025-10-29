@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using WillFrameworkPro.Extensions.InventorySystem;
 
 namespace WillFrameworkPro.InventorySystem
 {

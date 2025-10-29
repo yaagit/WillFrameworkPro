@@ -25,9 +25,9 @@ namespace WillFrameworkPro.Tools.TagManager
                 RegisterObject(obj, obj.tag);
             }
         }
-        /**
-         * 注册对象，保存到字典中。每个 tag 下面可以存在多个对象。
-         */
+        /// <summary>
+        /// 注册对象，保存到字典中。每个 tag 下面可以存在多个对象。
+        /// </summary>
         private static void RegisterObject(GameObject obj, string tag)
         {
             if (!_taggedObjects.ContainsKey(tag))
@@ -35,6 +35,13 @@ namespace WillFrameworkPro.Tools.TagManager
                 _taggedObjects[tag] = new List<GameObject>();
             }
             _taggedObjects[tag].Add(obj);
+        }
+        /// <summary>
+        /// 清空容器
+        /// </summary>
+        public static void Clear()
+        {
+            _taggedObjects.Clear();
         }
         /// <summary>
         /// 根据 tag 查找对象列表。
@@ -63,6 +70,7 @@ namespace WillFrameworkPro.Tools.TagManager
             }
             return null;
         }
+        
         /// <summary>
         /// 重写 ToString 方法，格式化打印。
         /// </summary>

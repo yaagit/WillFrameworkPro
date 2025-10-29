@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace WillFrameworkPro.Editor.ReadOnly
+namespace WillFrameworkPro.Attributes.ReadOnly
 {
 #if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]

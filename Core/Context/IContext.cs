@@ -15,7 +15,7 @@ namespace WillFrameworkPro.Core.Context
         
         void PresetGeneratedView(IView view);
 
-        void StartWithViewsOnSceneLoading(Assembly localAssembly, params IView[] views);
+        void StartWithViewsOnSceneLoading(params IView[] views);
 
         void ClearContainers();
     }

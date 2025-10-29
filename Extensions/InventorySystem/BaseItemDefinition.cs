@@ -1,9 +1,9 @@
-using System;
 using UnityEditor;
 using UnityEngine;
-using WillFrameworkPro.Editor.ReadOnly;
+using WillFrameworkPro.Attributes.ReadOnly;
+using WillFrameworkPro.InventorySystem;
 
-namespace WillFrameworkPro.InventorySystem
+namespace WillFrameworkPro.Extensions.InventorySystem
 {
     [CreateAssetMenu(fileName = "NewItem", menuName = "Inventory/Item")]
     public class BaseItemDefinition : ScriptableObject
