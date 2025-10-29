@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using UnityEngine;
 using WillFrameworkPro.Core.CommandManager;
 
 namespace WillFrameworkPro.Core.Containers
@@ -66,10 +68,22 @@ namespace WillFrameworkPro.Core.Containers
                 del.Invoke(command);
             }
         }
-
-        public int GetListenerCount()
+        /// <summary>
+        /// 统计出所有命令类型下挂载的委托数量
+        /// </summary>
+        /// <returns></returns>
+        public int GetTotalListenerCount()
         {
-            return _commandDelegates.Count;
+            int total = 0;
+            foreach (var del in _commandDelegates.Values)
+            {
+                if (del != null)
+                {
+                    //GetInvocationList 返回当前委托实例中，所有被订阅的函数引用（多播委托：一个委托可以对应多个函数引用）
+                    total += del.GetInvocationList().Length;
+                }
+            }
+            return total;
         }
         
         private bool AddCommandListenerImpl<T>(object user, InvokeCommandDelegate<T> del) where T : ICommand
@@ -183,6 +197,15 @@ namespace WillFrameworkPro.Core.Containers
         
         public void Clear()
         {
+            Debug.Log("所有被事件引用的函数总数（清除前）：" + GetTotalListenerCount());
+            //先注销事件
+            var users = _autoCheckoutListenerContainer.Keys.ToArray();
+            foreach (var user in users)
+            {
+                UnbindEvents(user);
+            }
+            Debug.Log("所有被事件引用的函数总数（清除后）：" + GetTotalListenerCount());
+            //清除容器
             _commandDelegates.Clear();
             _userCommandDelegatesLookup.Clear();
             _autoCheckoutListenerContainer.Clear();
