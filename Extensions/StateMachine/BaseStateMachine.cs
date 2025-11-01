@@ -1,9 +1,15 @@
-﻿using System;
+﻿// Copyright 2025 Will Chan
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+using System;
 using System.Collections.Generic;
 using WillFrameworkPro.Core.Attributes.Types;
 using WillFrameworkPro.Core.Views;
 
-namespace WillFrameworkPro.StateMachine
+namespace WillFrameworkPro.Extensions.StateMachine
 {
     /// <summary>
     /// 继承了 BaseView 的状态机，可以很好地集成到 WillFramework 中。

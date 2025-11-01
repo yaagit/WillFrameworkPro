@@ -1,10 +1,16 @@
-﻿using System;
+﻿// Copyright 2025 Will Chan
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using WillFrameworkPro.Core.Attributes.Types;
 
-namespace WillFrameworkPro.Tools.TagManager
+namespace WillFrameworkPro.Extensions.Tools.TagManager
 {
     /// <summary>
     /// 对 Unity 标签的管理器。拥有缓存系统，可以节约频繁查找带来的性能损耗。

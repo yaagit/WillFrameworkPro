@@ -1,7 +1,13 @@
-﻿using UnityEngine;
+﻿// Copyright 2025 Will Chan
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+using UnityEngine;
 using WillFrameworkPro.Core.Views;
 
-namespace WillFrameworkPro.Tools
+namespace WillFrameworkPro.Extensions.Tools
 {
     /// <summary>
     /// 为武器加入轻微的抖动效果，模拟“角色手握武器时微微颤动”的真实感。

@@ -1,4 +1,10 @@
-﻿using System;
+﻿// Copyright 2025 Will Chan
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +13,9 @@ using WillFrameworkPro.Core.CommandManager;
 
 namespace WillFrameworkPro.Core.Containers
 {
+    /// <summary>
+    /// 纯容器式委托系统
+    /// </summary>
     public class CommandContainer
     {
         public delegate void InvokeCommandDelegate<T>(T t) where T : ICommand;
@@ -197,15 +206,7 @@ namespace WillFrameworkPro.Core.Containers
         
         public void Clear()
         {
-            Debug.Log("所有被事件引用的函数总数（清除前）：" + GetTotalListenerCount());
-            //先注销事件
-            var users = _autoCheckoutListenerContainer.Keys.ToArray();
-            foreach (var user in users)
-            {
-                UnbindEvents(user);
-            }
-            Debug.Log("所有被事件引用的函数总数（清除后）：" + GetTotalListenerCount());
-            //清除容器
+            //清除容器，纯容器式委托系统清除了，意味着所有委托引用都断开了。
             _commandDelegates.Clear();
             _userCommandDelegatesLookup.Clear();
             _autoCheckoutListenerContainer.Clear();
